@@ -1,0 +1,59 @@
+{
+  "name": "ActivityLog",
+  "type": "object",
+  "properties": {
+    "entity_type": {
+      "type": "string",
+      "enum": [
+        "Estimate",
+        "Proposal",
+        "Contract",
+        "Invoice",
+        "Task"
+      ]
+    },
+    "entity_id": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "created",
+        "viewed",
+        "approved",
+        "rejected",
+        "expired",
+        "revised",
+        "sent",
+        "signed",
+        "converted",
+        "synced",
+        "invoice_generated"
+      ]
+    },
+    "performed_by": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string"
+    },
+    "related_entity_id": {
+      "type": "string"
+    },
+    "related_entity_type": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "entity_type",
+    "entity_id",
+    "action"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "name": "DocumentTemplate",
+  "type": "object",
+  "properties": {
+    "template_name": {
+      "type": "string",
+      "description": "Name of template"
+    },
+    "template_type": {
+      "type": "string",
+      "enum": [
+        "contract",
+        "proposal",
+        "estimate",
+        "change_order",
+        "warranty",
+        "completion_cert",
+        "work_auth",
+        "insurance_supplement",
+        "financing",
+        "material_form",
+        "inspection_report",
+        "crew_order",
+        "subcontractor_agreement",
+        "safety_form"
+      ],
+      "description": "Type of template"
+    },
+    "category": {
+      "type": "string",
+      "description": "Template category for organization"
+    },
+    "description": {
+      "type": "string",
+      "description": "Template description"
+    },
+    "content": {
+      "type": "object",
+      "description": "Template content structure"
+    },
+    "merge_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Available merge fields in template"
+    },
+    "signature_field_count": {
+      "type": "integer",
+      "default": 1,
+      "description": "Number of signature fields"
+    },
+    "is_locked": {
+      "type": "boolean",
+      "default": false,
+      "description": "Template is locked from editing"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Template is available for use"
+    },
+    "version": {
+      "type": "integer",
+      "default": 1,
+      "description": "Template version number"
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "template_name",
+    "template_type",
+    "content"
+  ]
+}

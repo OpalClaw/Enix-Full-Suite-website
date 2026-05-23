@@ -1,0 +1,147 @@
+{
+  "name": "Lead",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "zip": {
+      "type": "string"
+    },
+    "service_needed": {
+      "type": "string",
+      "enum": [
+        "residential_roofing",
+        "commercial_roofing",
+        "roof_repair",
+        "siding",
+        "windows",
+        "doors",
+        "gutters",
+        "storm_damage",
+        "other"
+      ]
+    },
+    "property_type": {
+      "type": "string",
+      "enum": [
+        "residential",
+        "commercial"
+      ]
+    },
+    "insurance_claim": {
+      "type": "boolean",
+      "default": false
+    },
+    "claim_number": {
+      "type": "string"
+    },
+    "insurance_company": {
+      "type": "string"
+    },
+    "adjuster_name": {
+      "type": "string"
+    },
+    "adjuster_phone": {
+      "type": "string"
+    },
+    "lead_source": {
+      "type": "string",
+      "enum": [
+        "website",
+        "referral",
+        "google",
+        "facebook",
+        "door_knock",
+        "phone",
+        "other"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "contacted",
+        "inspection_scheduled",
+        "inspection_completed",
+        "estimate_created",
+        "estimate_sent",
+        "follow_up",
+        "approved",
+        "contract_signed",
+        "material_ordered",
+        "scheduled",
+        "in_production",
+        "final_inspection",
+        "invoiced",
+        "paid",
+        "closed",
+        "lost"
+      ],
+      "default": "new"
+    },
+    "assigned_to": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ],
+      "default": "medium"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "photo_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "inspection_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "follow_up_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "building_name": {
+      "type": "string"
+    },
+    "property_manager": {
+      "type": "string"
+    },
+    "square_footage": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "first_name",
+    "last_name",
+    "phone"
+  ]
+}

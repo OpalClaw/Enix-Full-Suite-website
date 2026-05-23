@@ -1,0 +1,62 @@
+{
+  "name": "DocumentWorkflow",
+  "type": "object",
+  "properties": {
+    "workflow_name": {
+      "type": "string",
+      "description": "Name of workflow"
+    },
+    "trigger_type": {
+      "type": "string",
+      "enum": [
+        "estimate_approved",
+        "contract_signed",
+        "change_order_signed",
+        "certificate_signed",
+        "financing_signed",
+        "document_sent"
+      ],
+      "description": "Workflow trigger"
+    },
+    "document_type": {
+      "type": "string",
+      "description": "Document type that triggers workflow"
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action_type": {
+            "type": "string",
+            "enum": [
+              "send_email",
+              "notify_staff",
+              "create_task",
+              "update_job_status",
+              "generate_invoice",
+              "store_pdf",
+              "update_portal"
+            ]
+          },
+          "parameters": {
+            "type": "object"
+          }
+        }
+      },
+      "description": "Actions to execute"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "workflow_name",
+    "trigger_type",
+    "actions"
+  ]
+}

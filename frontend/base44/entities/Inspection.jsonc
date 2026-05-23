@@ -1,0 +1,95 @@
+{
+  "name": "Inspection",
+  "type": "object",
+  "properties": {
+    "lead_id": {
+      "type": "string"
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "property_address": {
+      "type": "string"
+    },
+    "inspection_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "service_type": {
+      "type": "string",
+      "enum": [
+        "roofing",
+        "siding",
+        "windows",
+        "doors",
+        "gutters",
+        "general"
+      ]
+    },
+    "roof_type": {
+      "type": "string"
+    },
+    "shingle_type": {
+      "type": "string"
+    },
+    "roof_age": {
+      "type": "string"
+    },
+    "squares": {
+      "type": "number"
+    },
+    "pitch": {
+      "type": "string"
+    },
+    "layers": {
+      "type": "integer"
+    },
+    "damage_notes": {
+      "type": "string"
+    },
+    "leak_notes": {
+      "type": "string"
+    },
+    "ventilation_notes": {
+      "type": "string"
+    },
+    "flashing_notes": {
+      "type": "string"
+    },
+    "storm_damage_checklist": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "insurance_claim_notes": {
+      "type": "string"
+    },
+    "recommended_scope": {
+      "type": "string"
+    },
+    "photo_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "inspector_name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "scheduled",
+        "completed",
+        "pending_review"
+      ],
+      "default": "scheduled"
+    }
+  },
+  "required": [
+    "lead_id",
+    "customer_name",
+    "property_address"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "name": "Material",
+  "type": "object",
+  "properties": {
+    "supplier": {
+      "type": "string"
+    },
+    "product_type": {
+      "type": "string"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "brand": {
+      "type": "string"
+    },
+    "color": {
+      "type": "string"
+    },
+    "quantity": {
+      "type": "number"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "cost": {
+      "type": "number"
+    },
+    "delivery_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "delivery_address": {
+      "type": "string"
+    },
+    "job_id": {
+      "type": "string"
+    },
+    "order_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "ordered",
+        "in_transit",
+        "delivered",
+        "received"
+      ],
+      "default": "pending"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "supplier_notes": {
+      "type": "string"
+    },
+    "document_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "supplier",
+    "product_type",
+    "quantity"
+  ]
+}

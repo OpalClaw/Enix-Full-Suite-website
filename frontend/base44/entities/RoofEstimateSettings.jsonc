@@ -1,0 +1,53 @@
+{
+  "name": "RoofEstimateSettings",
+  "type": "object",
+  "properties": {
+    "setting_name": {
+      "type": "string",
+      "description": "Name of the settings profile"
+    },
+    "default_statuses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Available estimate statuses"
+    },
+    "default_visibility": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Visibility options for estimates"
+    },
+    "default_estimate_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Available actions for estimates"
+    },
+    "default_markup_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Markup and fee fields to track"
+    },
+    "crm_sync_on_approval": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Actions to trigger when estimate is approved"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this settings profile is active"
+    }
+  },
+  "required": [
+    "setting_name"
+  ]
+}

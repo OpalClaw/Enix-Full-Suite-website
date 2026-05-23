@@ -1,0 +1,57 @@
+{
+  "name": "LaborRates",
+  "type": "object",
+  "properties": {
+    "rate_name": {
+      "type": "string",
+      "description": "Name of the labor rate tier"
+    },
+    "trade": {
+      "type": "string",
+      "enum": [
+        "roofing",
+        "siding",
+        "windows",
+        "gutters",
+        "general"
+      ],
+      "description": "Trade type"
+    },
+    "standard_rate": {
+      "type": "number",
+      "description": "Standard hourly rate"
+    },
+    "overtime_rate": {
+      "type": "number",
+      "description": "Overtime (1.5x) rate"
+    },
+    "weekend_rate": {
+      "type": "number",
+      "description": "Weekend rate"
+    },
+    "night_rate": {
+      "type": "number",
+      "description": "Night shift rate"
+    },
+    "hours_per_square": {
+      "type": "number",
+      "description": "Standard labor hours per 100 sq ft"
+    },
+    "effective_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date this rate became effective"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this rate is currently active"
+    }
+  },
+  "required": [
+    "rate_name",
+    "trade",
+    "standard_rate",
+    "hours_per_square"
+  ]
+}

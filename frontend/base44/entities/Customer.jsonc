@@ -1,0 +1,88 @@
+{
+  "name": "Customer",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "mobile": {
+      "type": "string"
+    },
+    "property_address": {
+      "type": "string"
+    },
+    "property_city": {
+      "type": "string"
+    },
+    "property_state": {
+      "type": "string"
+    },
+    "property_zip": {
+      "type": "string"
+    },
+    "billing_address": {
+      "type": "string"
+    },
+    "billing_city": {
+      "type": "string"
+    },
+    "billing_state": {
+      "type": "string"
+    },
+    "billing_zip": {
+      "type": "string"
+    },
+    "customer_type": {
+      "type": "string",
+      "enum": [
+        "homeowner",
+        "property_manager",
+        "contractor"
+      ]
+    },
+    "building_name": {
+      "type": "string"
+    },
+    "company_name": {
+      "type": "string"
+    },
+    "total_jobs": {
+      "type": "integer",
+      "default": 0
+    },
+    "total_revenue": {
+      "type": "number",
+      "default": 0
+    },
+    "preferred_contact": {
+      "type": "string",
+      "enum": [
+        "phone",
+        "email",
+        "text"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    },
+    "inactive": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "first_name",
+    "last_name",
+    "phone"
+  ]
+}

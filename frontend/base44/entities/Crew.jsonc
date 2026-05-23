@@ -1,0 +1,78 @@
+{
+  "name": "Crew",
+  "type": "object",
+  "properties": {
+    "crew_name": {
+      "type": "string"
+    },
+    "crew_lead": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "trade": {
+      "type": "string",
+      "enum": [
+        "roofing",
+        "siding",
+        "windows",
+        "doors",
+        "gutters",
+        "mixed"
+      ]
+    },
+    "insurance_certificate_url": {
+      "type": "string"
+    },
+    "w9_url": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "members": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "assigned_jobs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "payment_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "scheduled",
+        "paid"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "crew_name",
+    "crew_lead",
+    "phone"
+  ]
+}

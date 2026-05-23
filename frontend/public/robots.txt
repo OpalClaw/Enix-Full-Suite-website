@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Block internal/admin/auth routes from indexing
+Disallow: /api/
+Disallow: /portal/
+Disallow: /crm/
+Disallow: /smartdocs/
+Disallow: /clients/
+Disallow: /employees/
+Disallow: /login/
+
+# Sitemap reference (update domain when launching on enixexteriors.com)
+Sitemap: https://enixexteriors.com/sitemap.xml

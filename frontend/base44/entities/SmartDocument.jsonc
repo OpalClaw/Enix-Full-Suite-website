@@ -1,0 +1,168 @@
+{
+  "name": "SmartDocument",
+  "type": "object",
+  "properties": {
+    "document_name": {
+      "type": "string",
+      "description": "Name of the document"
+    },
+    "document_type": {
+      "type": "string",
+      "enum": [
+        "contract",
+        "proposal",
+        "estimate",
+        "change_order",
+        "warranty",
+        "completion_cert",
+        "work_auth",
+        "insurance_supplement",
+        "financing",
+        "material_form",
+        "inspection_report",
+        "crew_order",
+        "subcontractor_agreement",
+        "safety_form",
+        "custom"
+      ],
+      "description": "Type of document"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "sent",
+        "delivered",
+        "viewed",
+        "signed",
+        "declined",
+        "expired",
+        "completed"
+      ],
+      "default": "draft",
+      "description": "Document status"
+    },
+    "job_id": {
+      "type": "string",
+      "description": "Reference to job"
+    },
+    "estimate_id": {
+      "type": "string",
+      "description": "Reference to estimate"
+    },
+    "template_id": {
+      "type": "string",
+      "description": "Reference to template used"
+    },
+    "content": {
+      "type": "object",
+      "description": "Document content (blocks, formatting, fields)"
+    },
+    "merge_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Smart fields used in document"
+    },
+    "signature_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field_id": {
+            "type": "string"
+          },
+          "field_type": {
+            "type": "string",
+            "enum": [
+              "signature",
+              "initial",
+              "date",
+              "text"
+            ]
+          },
+          "signer_email": {
+            "type": "string"
+          },
+          "position": {
+            "type": "object"
+          }
+        }
+      },
+      "description": "Signature and form fields"
+    },
+    "recipients": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "order": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Document recipients"
+    },
+    "pdf_url": {
+      "type": "string",
+      "description": "URL to generated/stored PDF"
+    },
+    "signed_pdf_url": {
+      "type": "string",
+      "description": "URL to signed PDF"
+    },
+    "sent_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "viewed_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "signed_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "visible_to_client": {
+          "type": "boolean"
+        },
+        "can_download": {
+          "type": "boolean"
+        },
+        "can_print": {
+          "type": "boolean"
+        },
+        "requires_password": {
+          "type": "boolean"
+        }
+      }
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "document_name",
+    "document_type"
+  ]
+}

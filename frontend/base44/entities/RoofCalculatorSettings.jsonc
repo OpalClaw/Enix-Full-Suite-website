@@ -1,0 +1,84 @@
+{
+  "name": "RoofCalculatorSettings",
+  "type": "object",
+  "properties": {
+    "setting_name": {
+      "type": "string"
+    },
+    "waste_percentage": {
+      "type": "number",
+      "default": 10,
+      "description": "Default waste percentage for all calculations"
+    },
+    "labor_rate_per_hour": {
+      "type": "number",
+      "default": 85,
+      "description": "Labor rate per hour for roofing work"
+    },
+    "labor_hours_per_square": {
+      "type": "number",
+      "default": 0.5,
+      "description": "Standard labor hours per roofing square"
+    },
+    "complexity_penetration_multiplier": {
+      "type": "number",
+      "default": 0.1,
+      "description": "Additional labor multiplier per penetration"
+    },
+    "complexity_valley_multiplier": {
+      "type": "number",
+      "default": 0.15,
+      "description": "Additional labor multiplier per valley"
+    },
+    "sheathing_overlap_percentage": {
+      "type": "number",
+      "default": 5,
+      "description": "Overlap percentage for sheathing calculations"
+    },
+    "underlayment_overlap_percentage": {
+      "type": "number",
+      "default": 10,
+      "description": "Overlap percentage for underlayment"
+    },
+    "ice_water_shield_coverage_ratio": {
+      "type": "number",
+      "default": 0.5,
+      "description": "Coverage ratio for ice & water shield"
+    },
+    "starter_shingles_per_linear_ft": {
+      "type": "number",
+      "default": 0.33,
+      "description": "Starter shingle bundles needed per linear foot"
+    },
+    "ridge_cap_per_linear_ft": {
+      "type": "number",
+      "default": 0.33,
+      "description": "Ridge cap bundles needed per linear foot"
+    },
+    "downspout_spacing_feet": {
+      "type": "number",
+      "default": 30,
+      "description": "Linear feet between downspouts"
+    },
+    "flashing_per_penetration_sq_ft": {
+      "type": "number",
+      "default": 4,
+      "description": "Square feet of flashing per penetration"
+    },
+    "default_pitch": {
+      "type": "string",
+      "default": "6/12",
+      "description": "Default roof pitch for calculations"
+    },
+    "created_by": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "setting_name"
+  ]
+}

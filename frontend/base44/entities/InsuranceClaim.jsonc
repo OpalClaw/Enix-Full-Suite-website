@@ -1,0 +1,217 @@
+{
+  "name": "InsuranceClaim",
+  "type": "object",
+  "properties": {
+    "lead_id": {
+      "type": "string"
+    },
+    "job_id": {
+      "type": "string"
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "property_address": {
+      "type": "string"
+    },
+    "insurance_carrier": {
+      "type": "string"
+    },
+    "claim_number": {
+      "type": "string"
+    },
+    "date_of_loss": {
+      "type": "string",
+      "format": "date"
+    },
+    "claim_status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "submitted",
+        "approved",
+        "supplemented",
+        "denied",
+        "paid",
+        "closed"
+      ],
+      "default": "new"
+    },
+    "adjuster_name": {
+      "type": "string"
+    },
+    "adjuster_phone": {
+      "type": "string"
+    },
+    "adjuster_email": {
+      "type": "string"
+    },
+    "adjuster_notes": {
+      "type": "string"
+    },
+    "deductible": {
+      "type": "number"
+    },
+    "acv_amount": {
+      "type": "number"
+    },
+    "rcv_amount": {
+      "type": "number"
+    },
+    "depreciation_amount": {
+      "type": "number"
+    },
+    "recoverable_depreciation": {
+      "type": "number"
+    },
+    "approved_amount": {
+      "type": "number"
+    },
+    "our_estimate_total": {
+      "type": "number"
+    },
+    "insurance_estimate_total": {
+      "type": "number"
+    },
+    "estimate_variance": {
+      "type": "number"
+    },
+    "supplements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "supplement_number": {
+            "type": "integer"
+          },
+          "submitted_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "approved_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "amount_requested": {
+            "type": "number"
+          },
+          "amount_approved": {
+            "type": "number"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "submitted",
+              "approved",
+              "denied"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "scope_of_work_estimate": {
+      "type": "string"
+    },
+    "scope_of_work_insurance": {
+      "type": "string"
+    },
+    "document_urls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "insurance_scope",
+              "photo",
+              "claim_document",
+              "denial_letter",
+              "supplement_request",
+              "mortgage_check",
+              "other"
+            ]
+          },
+          "url": {
+            "type": "string"
+          },
+          "upload_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "inspection_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "insurance_estimate_received_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "first_supplement_submitted": {
+      "type": "string",
+      "format": "date"
+    },
+    "approval_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "mortgage_company": {
+      "type": "string"
+    },
+    "mortgage_check_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "mortgage_check_received": {
+      "type": "boolean",
+      "default": false
+    },
+    "notes": {
+      "type": "string"
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "lead_id",
+    "customer_name",
+    "claim_number",
+    "insurance_carrier"
+  ]
+}

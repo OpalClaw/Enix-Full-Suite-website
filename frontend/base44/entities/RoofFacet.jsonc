@@ -1,0 +1,57 @@
+{
+  "name": "RoofFacet",
+  "type": "object",
+  "properties": {
+    "eagleViewReportId": {
+      "type": "string",
+      "description": "Reference to EagleView report"
+    },
+    "facetNumber": {
+      "type": "integer",
+      "description": "Facet identifier"
+    },
+    "areaSF": {
+      "type": "number",
+      "description": "Area of facet in square feet"
+    },
+    "pitch": {
+      "type": "string",
+      "description": "Pitch of this facet (e.g., 6/12)"
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "north",
+        "northeast",
+        "east",
+        "southeast",
+        "south",
+        "southwest",
+        "west",
+        "northwest"
+      ],
+      "description": "Direction facet faces"
+    },
+    "length": {
+      "type": "number",
+      "description": "Length in feet"
+    },
+    "width": {
+      "type": "number",
+      "description": "Width in feet"
+    },
+    "materialType": {
+      "type": "string",
+      "description": "Current material type"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes"
+    }
+  },
+  "required": [
+    "eagleViewReportId",
+    "facetNumber",
+    "areaSF"
+  ]
+}

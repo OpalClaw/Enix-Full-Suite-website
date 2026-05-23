@@ -1,0 +1,284 @@
+{
+  "name": "Proposal",
+  "type": "object",
+  "properties": {
+    "proposal_number": {
+      "type": "string"
+    },
+    "estimate_id": {
+      "type": "string"
+    },
+    "lead_id": {
+      "type": "string"
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "customer_email": {
+      "type": "string"
+    },
+    "property_address": {
+      "type": "string"
+    },
+    "service_type": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "sent",
+        "viewed",
+        "approved",
+        "rejected",
+        "revision_requested",
+        "expired"
+      ],
+      "default": "draft"
+    },
+    "customer_approved": {
+      "type": "boolean",
+      "default": false
+    },
+    "approved_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "sent_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "viewed_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "project_summary": {
+      "type": "string"
+    },
+    "scope_of_work": {
+      "type": "string"
+    },
+    "before_photos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "after_photos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "material_specifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "product_name": {
+            "type": "string"
+          },
+          "brand": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "specifications": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "color_selections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string"
+          },
+          "color_code": {
+            "type": "string"
+          },
+          "color_name": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pricing_tiers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tier": {
+            "type": "string",
+            "enum": [
+              "good",
+              "better",
+              "best"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "selected_tier": {
+      "type": "string",
+      "enum": [
+        "good",
+        "better",
+        "best"
+      ]
+    },
+    "upgrade_options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "selected": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    },
+    "warranty_type": {
+      "type": "string",
+      "enum": [
+        "manufacturer",
+        "workmanship",
+        "extended"
+      ]
+    },
+    "warranty_details": {
+      "type": "string"
+    },
+    "warranty_years": {
+      "type": "integer"
+    },
+    "timeline_days": {
+      "type": "integer"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "completion_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "subtotal": {
+      "type": "number"
+    },
+    "tax": {
+      "type": "number"
+    },
+    "discount": {
+      "type": "number",
+      "default": 0
+    },
+    "total": {
+      "type": "number"
+    },
+    "payment_schedule": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "milestone": {
+            "type": "string"
+          },
+          "percentage": {
+            "type": "number"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "financing_available": {
+      "type": "boolean",
+      "default": true
+    },
+    "financing_options": {
+      "type": "string"
+    },
+    "terms_and_conditions": {
+      "type": "string"
+    },
+    "company_logo_url": {
+      "type": "string"
+    },
+    "company_name": {
+      "type": "string"
+    },
+    "company_phone": {
+      "type": "string"
+    },
+    "company_email": {
+      "type": "string"
+    },
+    "company_website": {
+      "type": "string"
+    },
+    "customer_signature": {
+      "type": "string"
+    },
+    "signature_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "revision_notes": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "pdf_url": {
+      "type": "string"
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "proposal_number",
+    "estimate_id",
+    "customer_name",
+    "total"
+  ]
+}

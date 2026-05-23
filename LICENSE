@@ -1,0 +1,25 @@
+Copyright (c) 2026 OpalSage Labs / OpalClaw, prepared for Enix Exteriors LLC.
+
+This software is delivered under a commercial license to Enix Exteriors LLC for
+their internal business use. Enix Exteriors LLC may:
+  - Deploy, modify, and operate this software on infrastructure they control.
+  - Engage third parties to maintain, extend, or operate this software on their behalf.
+  - Retain the source indefinitely.
+
+Enix Exteriors LLC may NOT:
+  - Resell, sublicense, or redistribute this software as a standalone product.
+  - Remove copyright notices from source files.
+
+Third-party dependencies retain their original open-source licenses (see
+each package's LICENSE file in node_modules after install). Notable runtime
+dependencies and their licenses:
+  - React, React Router, Vite, Tailwind: MIT
+  - Express, Hono, Drizzle ORM: MIT
+  - jsonwebtoken, argon2, bcrypt-style libraries: MIT / BSD
+  - Lucide icons: ISC
+  - shadcn/ui primitives (Radix UI): MIT
+  - DOMPurify: Mozilla Public License 2.0 / Apache 2.0
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.

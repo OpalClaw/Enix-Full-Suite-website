@@ -1,0 +1,226 @@
+{
+  "name": "EagleViewReport",
+  "type": "object",
+  "properties": {
+    "eagleViewReportId": {
+      "type": "string",
+      "description": "Unique EagleView report ID"
+    },
+    "projectId": {
+      "type": "string",
+      "description": "Reference to project/job"
+    },
+    "customerId": {
+      "type": "string",
+      "description": "Customer ID"
+    },
+    "propertyId": {
+      "type": "string",
+      "description": "Property ID"
+    },
+    "jobId": {
+      "type": "string",
+      "description": "Job ID"
+    },
+    "address": {
+      "type": "string",
+      "description": "Property street address"
+    },
+    "city": {
+      "type": "string",
+      "description": "City"
+    },
+    "state": {
+      "type": "string",
+      "description": "State"
+    },
+    "zip": {
+      "type": "string",
+      "description": "ZIP code"
+    },
+    "latitude": {
+      "type": "number",
+      "description": "Latitude coordinates"
+    },
+    "longitude": {
+      "type": "number",
+      "description": "Longitude coordinates"
+    },
+    "reportStatus": {
+      "type": "string",
+      "enum": [
+        "not_ordered",
+        "ordered",
+        "processing",
+        "complete",
+        "failed",
+        "cancelled",
+        "imported"
+      ],
+      "default": "not_ordered",
+      "description": "Current report status"
+    },
+    "reportType": {
+      "type": "string",
+      "enum": [
+        "roof",
+        "siding",
+        "windows",
+        "commercial",
+        "multi_service"
+      ],
+      "description": "Type of report"
+    },
+    "orderedBy": {
+      "type": "string",
+      "description": "User who ordered the report"
+    },
+    "orderedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date report was ordered"
+    },
+    "completedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date report was completed"
+    },
+    "pdfReportUrl": {
+      "type": "string",
+      "description": "URL to PDF report"
+    },
+    "measurementSource": {
+      "type": "string",
+      "enum": [
+        "aerial",
+        "satellite",
+        "on_site",
+        "gis"
+      ],
+      "description": "Source of measurement data"
+    },
+    "importedToEstimate": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether measurements have been imported to estimate"
+    },
+    "totalRoofAreaSF": {
+      "type": "number",
+      "description": "Total roof area in square feet"
+    },
+    "totalRoofSquares": {
+      "type": "number",
+      "description": "Total roof squares (100 sq ft)"
+    },
+    "adjustedRoofSquares": {
+      "type": "number",
+      "description": "Adjusted roof squares with waste"
+    },
+    "wastePercentage": {
+      "type": "number",
+      "description": "Applied waste percentage"
+    },
+    "predominantPitch": {
+      "type": "string",
+      "description": "Primary roof pitch (e.g., 6/12)"
+    },
+    "steepestPitch": {
+      "type": "string",
+      "description": "Steepest roof pitch"
+    },
+    "numberOfFacets": {
+      "type": "integer",
+      "description": "Number of roof facets"
+    },
+    "numberOfStories": {
+      "type": "integer",
+      "description": "Number of stories"
+    },
+    "ridgeLengthLF": {
+      "type": "number",
+      "description": "Ridge length in linear feet"
+    },
+    "hipLengthLF": {
+      "type": "number",
+      "description": "Hip length in linear feet"
+    },
+    "valleyLengthLF": {
+      "type": "number",
+      "description": "Valley length in linear feet"
+    },
+    "eaveLengthLF": {
+      "type": "number",
+      "description": "Eave length in linear feet"
+    },
+    "rakeLengthLF": {
+      "type": "number",
+      "description": "Rake length in linear feet"
+    },
+    "perimeterLengthLF": {
+      "type": "number",
+      "description": "Perimeter length in linear feet"
+    },
+    "flashingLengthLF": {
+      "type": "number",
+      "description": "Flashing length in linear feet"
+    },
+    "stepFlashingLengthLF": {
+      "type": "number",
+      "description": "Step flashing length in linear feet"
+    },
+    "gutterLengthLF": {
+      "type": "number",
+      "description": "Gutter length in linear feet"
+    },
+    "downspoutCount": {
+      "type": "integer",
+      "description": "Number of downspouts"
+    },
+    "chimneyCount": {
+      "type": "integer",
+      "description": "Number of chimneys"
+    },
+    "skylightCount": {
+      "type": "integer",
+      "description": "Number of skylights"
+    },
+    "pipeBootCount": {
+      "type": "integer",
+      "description": "Number of pipe boots"
+    },
+    "ventCount": {
+      "type": "integer",
+      "description": "Number of vents"
+    },
+    "roofPenetrationCount": {
+      "type": "integer",
+      "description": "Total roof penetrations"
+    },
+    "totalWallAreaSF": {
+      "type": "number",
+      "description": "Total wall area in square feet"
+    },
+    "sidingSquares": {
+      "type": "number",
+      "description": "Siding squares needed"
+    },
+    "windowCount": {
+      "type": "integer",
+      "description": "Number of windows"
+    },
+    "doorCount": {
+      "type": "integer",
+      "description": "Number of doors"
+    },
+    "rawJsonResponse": {
+      "type": "object",
+      "description": "Raw JSON response from EagleView API"
+    }
+  },
+  "required": [
+    "address",
+    "city",
+    "state",
+    "reportStatus"
+  ]
+}

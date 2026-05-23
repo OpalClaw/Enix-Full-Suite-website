@@ -1,0 +1,85 @@
+{
+  "name": "Contract",
+  "type": "object",
+  "properties": {
+    "contract_number": {
+      "type": "string"
+    },
+    "estimate_id": {
+      "type": "string"
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "customer_email": {
+      "type": "string"
+    },
+    "property_address": {
+      "type": "string"
+    },
+    "service_type": {
+      "type": "string"
+    },
+    "contract_price": {
+      "type": "number"
+    },
+    "scope_of_work": {
+      "type": "string"
+    },
+    "warranty_terms": {
+      "type": "string"
+    },
+    "payment_terms": {
+      "type": "string"
+    },
+    "change_order_terms": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "completion_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "signed": {
+      "type": "boolean",
+      "default": false
+    },
+    "signed_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "customer_signature": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending_signature",
+        "signed",
+        "active",
+        "completed"
+      ],
+      "default": "draft"
+    },
+    "document_url": {
+      "type": "string"
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "contract_number",
+    "estimate_id",
+    "customer_name",
+    "contract_price"
+  ]
+}

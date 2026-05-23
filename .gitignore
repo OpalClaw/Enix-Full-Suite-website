@@ -1,0 +1,41 @@
+# Build artifacts
+**/node_modules/
+**/dist/
+**/build/
+**/.vite/
+**/.next/
+**/.turbo/
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.*.local
+**/.env
+**/.env.local
+**/.env.production
+
+# Logs
+*.log
+**/logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Local lead data
+leads.json
+backups/
+
+# Packaging artifacts
+*.tar.gz
+*.sha256

@@ -1,0 +1,45 @@
+{
+  "name": "WasteFactors",
+  "type": "object",
+  "properties": {
+    "factor_name": {
+      "type": "string",
+      "description": "Name of the waste factor"
+    },
+    "material_type": {
+      "type": "string",
+      "enum": [
+        "shingles",
+        "underlayment",
+        "flashing",
+        "gutters",
+        "metal",
+        "membrane",
+        "coating"
+      ],
+      "description": "Type of material this factor applies to"
+    },
+    "waste_percentage": {
+      "type": "number",
+      "description": "Percentage waste to add to calculations"
+    },
+    "roof_pitch": {
+      "type": "string",
+      "description": "Roof pitch this factor applies to (e.g., 6/12, 12/12)"
+    },
+    "complexity_notes": {
+      "type": "string",
+      "description": "Notes about when to apply this factor"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this factor is active"
+    }
+  },
+  "required": [
+    "factor_name",
+    "material_type",
+    "waste_percentage"
+  ]
+}

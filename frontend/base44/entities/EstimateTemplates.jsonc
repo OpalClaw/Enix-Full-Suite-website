@@ -1,0 +1,88 @@
+{
+  "name": "EstimateTemplates",
+  "type": "object",
+  "properties": {
+    "template_name": {
+      "type": "string",
+      "description": "Name of the template"
+    },
+    "service_type": {
+      "type": "string",
+      "enum": [
+        "residential_roofing",
+        "commercial_roofing",
+        "roof_repair",
+        "siding",
+        "windows",
+        "doors",
+        "gutters",
+        "storm_damage",
+        "other"
+      ],
+      "description": "Service type"
+    },
+    "estimate_type": {
+      "type": "string",
+      "enum": [
+        "residential",
+        "commercial",
+        "repair",
+        "maintenance"
+      ],
+      "description": "Estimate type"
+    },
+    "default_markup_percentage": {
+      "type": "number",
+      "default": 30,
+      "description": "Default markup percentage"
+    },
+    "default_waste_percentage": {
+      "type": "number",
+      "default": 10,
+      "description": "Default waste percentage"
+    },
+    "tax_rate": {
+      "type": "number",
+      "default": 0,
+      "description": "Tax rate percentage"
+    },
+    "default_terms_and_conditions": {
+      "type": "string",
+      "description": "Default T&C text"
+    },
+    "default_line_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "item_name": {
+            "type": "string"
+          },
+          "unit_type": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "unit_cost": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "Default line items"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether template is active"
+    }
+  },
+  "required": [
+    "template_name",
+    "service_type",
+    "estimate_type"
+  ]
+}

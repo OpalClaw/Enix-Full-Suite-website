@@ -1,0 +1,52 @@
+{
+  "name": "EstimatePhotos",
+  "type": "object",
+  "properties": {
+    "estimate_id": {
+      "type": "string",
+      "description": "Reference to the estimate"
+    },
+    "photo_url": {
+      "type": "string",
+      "description": "URL to the photo"
+    },
+    "photo_type": {
+      "type": "string",
+      "enum": [
+        "overview",
+        "damage",
+        "measurement",
+        "detail",
+        "inspection"
+      ],
+      "description": "Type of photo"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what the photo shows"
+    },
+    "location": {
+      "type": "string",
+      "description": "Location on property (e.g., North side, front)"
+    },
+    "upload_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date photo was uploaded"
+    },
+    "taken_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date photo was taken"
+    },
+    "uploaded_by": {
+      "type": "string",
+      "description": "User who uploaded the photo"
+    }
+  },
+  "required": [
+    "estimate_id",
+    "photo_url",
+    "photo_type"
+  ]
+}

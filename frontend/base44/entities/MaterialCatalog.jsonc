@@ -1,0 +1,73 @@
+{
+  "name": "MaterialCatalog",
+  "type": "object",
+  "properties": {
+    "material_name": {
+      "type": "string",
+      "description": "Name of the material"
+    },
+    "material_type": {
+      "type": "string",
+      "enum": [
+        "shingles",
+        "underlayment",
+        "flashing",
+        "gutters",
+        "accessories",
+        "coatings",
+        "membranes"
+      ],
+      "description": "Type of roofing material"
+    },
+    "category": {
+      "type": "string",
+      "description": "Material category for organization"
+    },
+    "brand": {
+      "type": "string",
+      "description": "Manufacturer brand"
+    },
+    "model": {
+      "type": "string",
+      "description": "Product model number"
+    },
+    "cost": {
+      "type": "number",
+      "description": "Cost per unit"
+    },
+    "unit_type": {
+      "type": "string",
+      "enum": [
+        "sq",
+        "bundle",
+        "gallon",
+        "linear_ft",
+        "sheet"
+      ],
+      "description": "Unit of measurement"
+    },
+    "cost_per_square": {
+      "type": "number",
+      "description": "Cost per 100 sq ft"
+    },
+    "supplier": {
+      "type": "string",
+      "description": "Material supplier"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether material is available for use"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional product notes"
+    }
+  },
+  "required": [
+    "material_name",
+    "material_type",
+    "cost",
+    "unit_type"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "name": "EstimateLineItems",
+  "type": "object",
+  "properties": {
+    "estimate_id": {
+      "type": "string",
+      "description": "Reference to the parent estimate"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "materials",
+        "labor",
+        "equipment",
+        "services",
+        "permits"
+      ],
+      "description": "Category of the line item"
+    },
+    "item_name": {
+      "type": "string",
+      "description": "Description of the line item"
+    },
+    "quantity": {
+      "type": "number",
+      "description": "Quantity of the item"
+    },
+    "unit_type": {
+      "type": "string",
+      "enum": [
+        "sq",
+        "linear_ft",
+        "each",
+        "day",
+        "hour"
+      ],
+      "description": "Unit of measurement"
+    },
+    "unit_cost": {
+      "type": "number",
+      "description": "Cost per unit"
+    },
+    "labor_cost": {
+      "type": "number",
+      "description": "Labor cost for this item"
+    },
+    "markup_percentage": {
+      "type": "number",
+      "default": 0,
+      "description": "Markup percentage applied to this item"
+    },
+    "total_price": {
+      "type": "number",
+      "description": "Calculated total price"
+    },
+    "taxable": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this item is subject to tax"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes for this line item"
+    }
+  },
+  "required": [
+    "estimate_id",
+    "item_name",
+    "quantity",
+    "unit_type",
+    "unit_cost",
+    "total_price"
+  ]
+}

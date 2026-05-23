@@ -1,0 +1,52 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "owner",
+        "admin",
+        "user",
+        "Client"
+      ],
+      "default": "user",
+      "description": "User role in the system"
+    },
+    "first_name": {
+      "type": "string",
+      "description": "User's first name"
+    },
+    "last_name": {
+      "type": "string",
+      "description": "User's last name"
+    },
+    "phone": {
+      "type": "string",
+      "description": "User's phone number"
+    },
+    "title": {
+      "type": "string",
+      "description": "Job title"
+    },
+    "company": {
+      "type": "string",
+      "description": "Company name"
+    },
+    "assigned_territory": {
+      "type": "string",
+      "description": "Assigned territory"
+    },
+    "active": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the user account is active"
+    },
+    "last_login": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last login timestamp"
+    }
+  },
+  "required": []
+}

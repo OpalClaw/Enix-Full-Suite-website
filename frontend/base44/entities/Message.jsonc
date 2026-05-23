@@ -1,0 +1,48 @@
+{
+  "name": "Message",
+  "type": "object",
+  "properties": {
+    "job_id": {
+      "type": "string"
+    },
+    "sender_email": {
+      "type": "string"
+    },
+    "sender_name": {
+      "type": "string"
+    },
+    "sender_role": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "is_internal": {
+      "type": "boolean",
+      "default": false
+    },
+    "read": {
+      "type": "boolean",
+      "default": false
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "message_type": {
+      "type": "string",
+      "enum": [
+        "note",
+        "comment",
+        "status_update",
+        "reminder"
+      ],
+      "default": "note"
+    }
+  },
+  "required": [
+    "content"
+  ]
+}

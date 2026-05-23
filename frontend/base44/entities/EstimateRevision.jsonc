@@ -1,0 +1,30 @@
+{
+  "name": "EstimateRevision",
+  "type": "object",
+  "properties": {
+    "estimate_id": {
+      "type": "string"
+    },
+    "revision_number": {
+      "type": "integer"
+    },
+    "previous_data": {
+      "type": "object"
+    },
+    "changes": {
+      "type": "object"
+    },
+    "revision_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "estimate_id",
+    "revision_number",
+    "previous_data"
+  ]
+}

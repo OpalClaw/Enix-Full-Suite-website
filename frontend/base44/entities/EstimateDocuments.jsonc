@@ -1,0 +1,61 @@
+{
+  "name": "EstimateDocuments",
+  "type": "object",
+  "properties": {
+    "estimate_id": {
+      "type": "string",
+      "description": "Reference to the estimate"
+    },
+    "document_name": {
+      "type": "string",
+      "description": "Name of the document"
+    },
+    "document_url": {
+      "type": "string",
+      "description": "URL to the document"
+    },
+    "document_type": {
+      "type": "string",
+      "enum": [
+        "estimate",
+        "proposal",
+        "insurance_scope",
+        "blueprint",
+        "warranty",
+        "other"
+      ],
+      "description": "Type of document"
+    },
+    "file_format": {
+      "type": "string",
+      "enum": [
+        "pdf",
+        "jpg",
+        "png",
+        "docx",
+        "xlsx"
+      ],
+      "description": "File format"
+    },
+    "upload_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date document was uploaded"
+    },
+    "uploaded_by": {
+      "type": "string",
+      "description": "User who uploaded the document"
+    },
+    "version": {
+      "type": "integer",
+      "default": 1,
+      "description": "Document version number"
+    }
+  },
+  "required": [
+    "estimate_id",
+    "document_name",
+    "document_url",
+    "document_type"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "name": "ProductSelections",
+  "type": "object",
+  "properties": {
+    "estimate_id": {
+      "type": "string",
+      "description": "Reference to the estimate"
+    },
+    "product_category": {
+      "type": "string",
+      "enum": [
+        "roofing",
+        "underlayment",
+        "flashing",
+        "gutters",
+        "accessories"
+      ],
+      "description": "Category of product"
+    },
+    "material_id": {
+      "type": "string",
+      "description": "Reference to MaterialCatalog"
+    },
+    "product_name": {
+      "type": "string",
+      "description": "Selected product name"
+    },
+    "brand": {
+      "type": "string",
+      "description": "Product brand"
+    },
+    "model": {
+      "type": "string",
+      "description": "Product model"
+    },
+    "color": {
+      "type": "string",
+      "description": "Product color (if applicable)"
+    },
+    "quantity_needed": {
+      "type": "number",
+      "description": "Quantity for this estimate"
+    },
+    "unit_cost": {
+      "type": "number",
+      "description": "Cost per unit"
+    },
+    "total_cost": {
+      "type": "number",
+      "description": "Total cost for this product"
+    },
+    "selection_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date product was selected"
+    }
+  },
+  "required": [
+    "estimate_id",
+    "product_category",
+    "product_name",
+    "quantity_needed",
+    "unit_cost"
+  ]
+}

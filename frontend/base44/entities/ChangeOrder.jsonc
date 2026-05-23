@@ -1,0 +1,71 @@
+{
+  "name": "ChangeOrder",
+  "type": "object",
+  "properties": {
+    "change_order_number": {
+      "type": "string"
+    },
+    "job_id": {
+      "type": "string"
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "original_scope": {
+      "type": "string"
+    },
+    "requested_change": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "price_change": {
+      "type": "number"
+    },
+    "time_extension_days": {
+      "type": "integer"
+    },
+    "new_total": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "submitted",
+        "approved",
+        "rejected",
+        "completed"
+      ],
+      "default": "proposed"
+    },
+    "customer_approved": {
+      "type": "boolean",
+      "default": false
+    },
+    "approved_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "customer_signature": {
+      "type": "string"
+    },
+    "document_url": {
+      "type": "string"
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "change_order_number",
+    "job_id",
+    "customer_name",
+    "requested_change"
+  ]
+}

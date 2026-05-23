@@ -1,0 +1,85 @@
+{
+  "name": "CommercialRoofSystems",
+  "type": "object",
+  "properties": {
+    "system_type": {
+      "type": "string",
+      "enum": [
+        "TPO",
+        "EPDM",
+        "BUR",
+        "Modified_Bitumen",
+        "Coatings",
+        "Metal"
+      ],
+      "description": "Type of commercial roofing system"
+    },
+    "manufacturer": {
+      "type": "string",
+      "description": "System manufacturer"
+    },
+    "cost_per_square": {
+      "type": "number",
+      "description": "Material cost per 100 sq ft"
+    },
+    "installation_hours_per_square": {
+      "type": "number",
+      "description": "Labor hours per 100 sq ft"
+    },
+    "warranty_years": {
+      "type": "integer",
+      "description": "Standard warranty period"
+    },
+    "fire_rating": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "None"
+      ],
+      "description": "Fire rating"
+    },
+    "wind_rating": {
+      "type": "string",
+      "description": "Wind rating (e.g., 90 mph)"
+    },
+    "energy_rating": {
+      "type": "number",
+      "description": "Energy efficiency rating"
+    },
+    "membrane_thickness": {
+      "type": "string",
+      "description": "Membrane thickness (if applicable)"
+    },
+    "seam_type": {
+      "type": "string",
+      "enum": [
+        "mechanically_fastened",
+        "fully_adhered",
+        "ballasted",
+        "welded"
+      ],
+      "description": "Seam attachment method"
+    },
+    "maintenance_requirements": {
+      "type": "string",
+      "description": "Required maintenance notes"
+    },
+    "tear_off_compatible": {
+      "type": "boolean",
+      "default": true,
+      "description": "Can be installed over existing roof"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this system is actively offered"
+    }
+  },
+  "required": [
+    "system_type",
+    "cost_per_square",
+    "installation_hours_per_square"
+  ]
+}

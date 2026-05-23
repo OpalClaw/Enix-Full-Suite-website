@@ -1,0 +1,78 @@
+{
+  "name": "Warranty",
+  "type": "object",
+  "properties": {
+    "job_id": {
+      "type": "string"
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "customer_email": {
+      "type": "string"
+    },
+    "property_address": {
+      "type": "string"
+    },
+    "warranty_type": {
+      "type": "string",
+      "enum": [
+        "manufacturer",
+        "workmanship",
+        "extended"
+      ]
+    },
+    "manufacturer": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "duration_years": {
+      "type": "integer"
+    },
+    "coverage_details": {
+      "type": "string"
+    },
+    "document_url": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "job_id",
+    "customer_name",
+    "warranty_type",
+    "start_date",
+    "end_date"
+  ]
+}

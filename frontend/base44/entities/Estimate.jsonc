@@ -1,0 +1,186 @@
+{
+  "name": "Estimate",
+  "type": "object",
+  "properties": {
+    "estimate_number": {
+      "type": "string"
+    },
+    "lead_id": {
+      "type": "string"
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "customer_email": {
+      "type": "string"
+    },
+    "property_address": {
+      "type": "string"
+    },
+    "service_type": {
+      "type": "string",
+      "enum": [
+        "residential_roofing",
+        "commercial_roofing",
+        "roof_repair",
+        "siding",
+        "windows",
+        "doors",
+        "gutters",
+        "storm_damage",
+        "other"
+      ]
+    },
+    "property_type": {
+      "type": "string",
+      "enum": [
+        "residential",
+        "commercial"
+      ]
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "sent_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "labor_cost": {
+      "type": "number"
+    },
+    "material_cost": {
+      "type": "number"
+    },
+    "waste_percentage": {
+      "type": "number",
+      "default": 10
+    },
+    "tax": {
+      "type": "number"
+    },
+    "overhead_profit": {
+      "type": "number"
+    },
+    "discount": {
+      "type": "number",
+      "default": 0
+    },
+    "total": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "sent",
+        "approved",
+        "rejected",
+        "expired"
+      ],
+      "default": "draft"
+    },
+    "customer_approved": {
+      "type": "boolean",
+      "default": false
+    },
+    "approved_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "line_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "unit_price": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "upgrade_options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "packages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tier": {
+            "type": "string",
+            "enum": [
+              "good",
+              "better",
+              "best"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "revision_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "synced_to_portal": {
+      "type": "boolean",
+      "default": false
+    },
+    "portal_sync_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "viewed_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "viewed_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "estimate_number",
+    "lead_id",
+    "customer_name",
+    "service_type",
+    "total"
+  ]
+}

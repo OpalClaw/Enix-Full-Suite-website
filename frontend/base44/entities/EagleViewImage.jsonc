@@ -1,0 +1,53 @@
+{
+  "name": "EagleViewImage",
+  "type": "object",
+  "properties": {
+    "eagleViewReportId": {
+      "type": "string",
+      "description": "Reference to EagleView report"
+    },
+    "projectId": {
+      "type": "string",
+      "description": "Project/Job ID"
+    },
+    "imageType": {
+      "type": "string",
+      "enum": [
+        "orthogonal",
+        "oblique",
+        "measurement_diagram",
+        "roof_outline",
+        "3d_preview",
+        "report_screenshot"
+      ],
+      "description": "Type of image"
+    },
+    "imageUrl": {
+      "type": "string",
+      "description": "Full resolution image URL"
+    },
+    "thumbnailUrl": {
+      "type": "string",
+      "description": "Thumbnail image URL"
+    },
+    "angle": {
+      "type": "string",
+      "description": "Camera angle or viewing angle"
+    },
+    "dateCaptured": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date image was captured"
+    },
+    "clientVisible": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether image is visible to client"
+    }
+  },
+  "required": [
+    "eagleViewReportId",
+    "imageType",
+    "imageUrl"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "name": "RoofPitchBreakdown",
+  "type": "object",
+  "properties": {
+    "eagleViewReportId": {
+      "type": "string",
+      "description": "Reference to EagleView report"
+    },
+    "pitch": {
+      "type": "string",
+      "enum": [
+        "flat",
+        "2/12",
+        "3/12",
+        "4/12",
+        "5/12",
+        "6/12",
+        "7/12",
+        "8/12",
+        "9/12",
+        "10/12",
+        "12/12",
+        "14/12+"
+      ],
+      "description": "Roof pitch"
+    },
+    "areaSF": {
+      "type": "number",
+      "description": "Area of this pitch in square feet"
+    },
+    "squares": {
+      "type": "number",
+      "description": "Number of squares for this pitch"
+    },
+    "percentageOfRoof": {
+      "type": "number",
+      "description": "Percentage of total roof area"
+    }
+  },
+  "required": [
+    "eagleViewReportId",
+    "pitch",
+    "areaSF"
+  ]
+}
