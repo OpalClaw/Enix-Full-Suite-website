@@ -53,16 +53,33 @@ async function listSqlFiles(): Promise<string[]> {
   }
 }
 
+async function loadDrizzleJournalTags(): Promise<Set<string>> {
+  try {
+    const raw = await fs.readFile(path.join(MIGRATIONS_DIR, "meta", "_journal.json"), "utf8");
+    const parsed = JSON.parse(raw) as { entries?: { tag?: string }[] };
+    const tags = (parsed.entries ?? [])
+      .map((e) => e.tag)
+      .filter((t): t is string => typeof t === "string");
+    return new Set(tags);
+  } catch (e) {
+    const err = e as NodeJS.ErrnoException;
+    if (err.code === "ENOENT") return new Set();
+    throw err;
+  }
+}
+
 async function runRawSqlMigrations(): Promise<void> {
   const files = await listSqlFiles();
   if (files.length === 0) return;
+  const drizzleTags = await loadDrizzleJournalTags();
   const client = await pool.connect();
   try {
     await ensureTracker(client);
     const applied = await appliedSet(client);
     for (const file of files) {
-      if (applied.has(file)) {
-        logger.info({ file }, "migration already applied");
+      const baseTag = file.replace(/\.sql$/, "");
+      if (applied.has(file) || drizzleTags.has(baseTag)) {
+        logger.info({ file }, "migration already applied (via drizzle journal or raw tracker)");
         continue;
       }
       const sql = await fs.readFile(path.join(MIGRATIONS_DIR, file), "utf8");
