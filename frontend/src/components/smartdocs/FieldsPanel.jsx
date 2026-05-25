@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Type, Image as ImageIcon, Signature, Calendar, Square } from 'lucide-react';
+import { Type, Image as ImageIcon, Signature, Calendar, Square } from 'lucide-react';
 
 export default function FieldsPanel({ fields, onAddBlock }) {
   const [searchTerm, setSearchTerm] = useState('');

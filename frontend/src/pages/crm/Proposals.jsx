@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { FileText, Eye, Send, Download, Trash2 } from 'lucide-react';
+import { FileText, Eye, Send, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
-import ProposalBuilder from '@/components/crm/ProposalBuilder';
 import ProposalViewer from '@/components/crm/ProposalViewer';
 import { toast } from 'sonner';
 

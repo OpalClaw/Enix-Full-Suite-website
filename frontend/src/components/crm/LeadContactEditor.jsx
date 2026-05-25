@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Pencil, X } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 
 export default function LeadContactEditor({ lead, onSave, isSaving }) {
   const [isEditing, setIsEditing] = useState(false);

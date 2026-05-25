@@ -4,13 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MapPin, FileText, Calendar, MessageSquare, Image, Wrench, DollarSign, Shield, Loader2, Briefcase } from 'lucide-react';
+import { MapPin, FileText, Loader2, Briefcase } from 'lucide-react';
 import { format } from 'date-fns';
-import JobDetailCard from '@/components/portal/JobDetailCard';
-import ProjectStatusCard from '@/components/portal/ProjectStatusCard';
-import RecentActivityFeed from '@/components/portal/RecentActivityFeed';
-import NotificationsPanel from '@/components/portal/NotificationsPanel';
-import ProjectManagerCard from '@/components/portal/ProjectManagerCard';
 
 const statusColors = {
   approved: 'bg-blue-100 text-blue-700',

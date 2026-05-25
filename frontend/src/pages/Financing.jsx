@@ -1,7 +1,7 @@
 import React from 'react';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { Card } from '@/components/ui/card';
-import { DollarSign, CheckCircle2, Clock, CreditCard, Shield, Calculator } from 'lucide-react';
+import { DollarSign, Clock, CreditCard, Shield, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import CTASection from '../components/public/CTASection';

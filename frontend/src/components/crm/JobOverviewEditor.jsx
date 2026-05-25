@@ -5,8 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import { Phone, Mail, MapPin, Calendar, Edit2, Check, X } from 'lucide-react';
+import { Phone, Mail, MapPin, Edit2 } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function JobOverviewEditor({ job }) {

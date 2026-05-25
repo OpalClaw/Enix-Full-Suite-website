@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { replaceMergeFields, extractMergeFields } from '@/lib/smartDocFieldEngine';
-import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { AlertCircle } from 'lucide-react';
 

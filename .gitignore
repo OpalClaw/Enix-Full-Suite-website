@@ -1,41 +1,92 @@
-# Build artifacts
+# =============================================================================
+# Enix Exteriors Full Suite — .gitignore
+# =============================================================================
+
+# ---- Dependencies & build artifacts ----
 **/node_modules/
 **/dist/
 **/build/
 **/.vite/
 **/.next/
 **/.turbo/
+**/coverage/
+**/.nyc_output/
 
-# Environment files
+# ---- Environment & secrets ----
 .env
 .env.local
-.env.production
 .env.*.local
+.env.production
+.env.development
+.env.test
 **/.env
 **/.env.local
+**/.env.*.local
 **/.env.production
 
-# Logs
+# Certificates / keys / signed payloads
+*.pem
+*.key
+*.crt
+*.cer
+*.der
+*.p12
+*.pfx
+*.jks
+*.keystore
+secrets/
+private/
+
+# ---- Local lead data (production data lives in the DB / leads-api host) ----
+leads.json
+**/leads.json
+backups/
+
+# ---- Logs ----
 *.log
 **/logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+bun-debug.log*
 
-# OS / editor
+# ---- IDE / OS ----
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
+*.swp
+*.swo
+.history/
 
-# Test coverage
+# ---- Test outputs ----
 coverage/
-.nyc_output/
+test-results/
+playwright-report/
+junit.xml
 
-# Local lead data
-leads.json
-backups/
-
-# Packaging artifacts
+# ---- Packaging artifacts ----
 *.tar.gz
+*.tgz
 *.sha256
+*.zip
+artifacts/
+
+# ---- Drizzle ----
+backend/drizzle/
+backend/.drizzle/
+
+# ---- Local databases ----
+*.sqlite
+*.sqlite3
+*.db
+
+# ---- Frontend-specific ----
+frontend/.cache/
+frontend/.parcel-cache/
+frontend/stats.html
+
+# ---- AI / scratch ----
+.aider*
+.claude/
+.cursor/

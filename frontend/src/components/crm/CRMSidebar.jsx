@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { 
-  LayoutDashboard, Users, FileText, Calendar, Wrench, DollarSign, Inbox, 
-  Settings, LogOut, Menu, X, BarChart3, Zap, ClipboardList, Shield, Building2, Ruler
+  LayoutDashboard, FileText, Calendar, Wrench, DollarSign, Inbox, 
+  Settings, LogOut, Menu, X, BarChart3, Zap, ClipboardList, Shield, Ruler
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 

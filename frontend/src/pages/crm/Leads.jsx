@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/dialog';
 import { Plus, Search, ChevronDown, Filter, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { format } from 'date-fns';
 import LeadCard from '@/components/crm/LeadCard';
 import { toast } from '@/components/ui/use-toast';
 import { usePageTitle } from '@/hooks/usePageTitle';

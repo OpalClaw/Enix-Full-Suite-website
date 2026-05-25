@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, List, Copy, RotateCcw, RotateCw, ZoomIn, ZoomOut } from 'lucide-react';
+import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, List, RotateCcw, RotateCw, ZoomIn, ZoomOut } from 'lucide-react';
 
 export default function ToolbarTop({ onAddBlock }) {
   return (

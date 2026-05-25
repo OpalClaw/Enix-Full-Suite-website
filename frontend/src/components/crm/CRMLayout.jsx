@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { useAuth } from '@/lib/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   LayoutDashboard, Users, Briefcase, FileText, Calendar, MessageSquare,
-  ClipboardList, DollarSign, Shield, BarChart3, Menu, LogOut, ChevronRight,
-  Home, UserCircle, Settings, Ruler } from
+  ClipboardList, DollarSign, Shield, BarChart3, Menu,
+  Home, Settings, Ruler } from
 'lucide-react';
 
 const LOGO = "https://media.base44.com/images/public/user_6a0541ba998771a1f2cb4ab0/ae967f6a7_Enix.png";

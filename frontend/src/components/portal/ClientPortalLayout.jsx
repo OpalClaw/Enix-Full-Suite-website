@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { Outlet } from 'react-router-dom';
-import { Bell, MessageSquare, LogOut, ChevronDown, ChevronLeft, Home, Briefcase, Image, Monitor, MessageCircle, FileText, DollarSign, ClipboardList, Zap, LifeBuoy, Menu, X } from 'lucide-react';
+import { Bell, MessageSquare, LogOut, ChevronDown, ChevronLeft, Home, Briefcase, Image, Monitor, MessageCircle, FileText, DollarSign, ClipboardList, Zap, LifeBuoy, Menu } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';

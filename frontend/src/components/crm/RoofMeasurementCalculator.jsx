@@ -10,7 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
 import { Zap } from 'lucide-react';
 
 const PITCH_MULTIPLIERS = {

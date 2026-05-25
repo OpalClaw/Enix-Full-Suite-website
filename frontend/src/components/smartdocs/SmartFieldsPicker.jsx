@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { SMART_FIELD_CATEGORIES } from '@/lib/smartDocFieldEngine';
 import { User, Briefcase, Home, Ruler, FileText, Shield, Wrench, Box, DollarSign, CheckCircle, Search } from 'lucide-react';
