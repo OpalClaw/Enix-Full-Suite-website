@@ -24,10 +24,26 @@ export const paymentMethodEnum = pgEnum("payment_method", ["check", "card", "ach
 export const propertyTypeEnum = pgEnum("property_type", ["residential", "commercial"]);
 
 /* ============================================================
+ * Tenants (multi-tenant ready — single-tenant by default for Enix)
+ * ========================================================= */
+export const tenants = pgTable("tenants", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  slug: varchar("slug", { length: 50 }).notNull().unique(),
+  name: varchar("name", { length: 200 }).notNull(),
+  status: varchar("status", { length: 20 }).notNull().default("active"),
+  metadata: jsonb("metadata").$type<Record<string, unknown>>().notNull().default({}),
+  created_at: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  slugIdx: uniqueIndex("tenants_slug_idx").on(t.slug),
+}));
+
+/* ============================================================
  * Core tables
  * ========================================================= */
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
+  tenant_id: uuid("tenant_id").references(() => tenants.id, { onDelete: "restrict" }),
   email: varchar("email", { length: 255 }).notNull().unique(),
   password_hash: text("password_hash"),
   full_name: varchar("full_name", { length: 200 }).notNull(),
@@ -36,11 +52,16 @@ export const users = pgTable("users", {
   active: boolean("active").notNull().default(true),
   last_login_at: timestamp("last_login_at", { withTimezone: true }),
   client_job_number: varchar("client_job_number", { length: 50 }),
+  failed_login_attempts: integer("failed_login_attempts").notNull().default(0),
+  last_failed_login_at: timestamp("last_failed_login_at", { withTimezone: true }),
+  locked_until: timestamp("locked_until", { withTimezone: true }),
   created_at: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updated_at: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 }, (t) => ({
   emailIdx: uniqueIndex("users_email_idx").on(t.email),
   roleIdx: index("users_role_idx").on(t.role),
+  tenantIdx: index("users_tenant_idx").on(t.tenant_id),
+  lockedIdx: index("users_locked_until_idx").on(t.locked_until),
 }));
 
 export const sessions = pgTable("sessions", {
@@ -51,6 +72,7 @@ export const sessions = pgTable("sessions", {
   ip: varchar("ip", { length: 64 }),
   expires_at: timestamp("expires_at", { withTimezone: true }).notNull(),
   revoked_at: timestamp("revoked_at", { withTimezone: true }),
+  revocation_reason: varchar("revocation_reason", { length: 64 }),
   created_at: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 }, (t) => ({
   userIdx: index("sessions_user_idx").on(t.user_id),
@@ -59,6 +81,7 @@ export const sessions = pgTable("sessions", {
 
 export const customers = pgTable("customers", {
   id: uuid("id").primaryKey().defaultRandom(),
+  tenant_id: uuid("tenant_id").references(() => tenants.id, { onDelete: "restrict" }),
   name: varchar("name", { length: 200 }).notNull(),
   email: varchar("email", { length: 255 }),
   phone: varchar("phone", { length: 20 }),
@@ -73,10 +96,12 @@ export const customers = pgTable("customers", {
 }, (t) => ({
   emailIdx: index("customers_email_idx").on(t.email),
   phoneIdx: index("customers_phone_idx").on(t.phone),
+  tenantIdx: index("customers_tenant_idx").on(t.tenant_id),
 }));
 
 export const leads = pgTable("leads", {
   id: uuid("id").primaryKey().defaultRandom(),
+  tenant_id: uuid("tenant_id").references(() => tenants.id, { onDelete: "restrict" }),
   first_name: varchar("first_name", { length: 100 }),
   last_name: varchar("last_name", { length: 100 }),
   email: varchar("email", { length: 255 }),
@@ -107,10 +132,12 @@ export const leads = pgTable("leads", {
   statusIdx: index("leads_status_idx").on(t.status),
   createdIdx: index("leads_created_idx").on(t.created_at),
   emailIdx: index("leads_email_idx").on(t.email),
+  tenantIdx: index("leads_tenant_idx").on(t.tenant_id),
 }));
 
 export const jobs = pgTable("jobs", {
   id: uuid("id").primaryKey().defaultRandom(),
+  tenant_id: uuid("tenant_id").references(() => tenants.id, { onDelete: "restrict" }),
   job_number: varchar("job_number", { length: 50 }).notNull().unique(),
   customer_id: uuid("customer_id").notNull().references(() => customers.id, { onDelete: "restrict" }),
   customer_name: varchar("customer_name", { length: 200 }).notNull(),
@@ -138,10 +165,12 @@ export const jobs = pgTable("jobs", {
   customerIdx: index("jobs_customer_idx").on(t.customer_id),
   statusIdx: index("jobs_status_idx").on(t.status),
   customerEmailIdx: index("jobs_customer_email_idx").on(t.customer_email),
+  tenantIdx: index("jobs_tenant_idx").on(t.tenant_id),
 }));
 
 export const estimates = pgTable("estimates", {
   id: uuid("id").primaryKey().defaultRandom(),
+  tenant_id: uuid("tenant_id").references(() => tenants.id, { onDelete: "restrict" }),
   estimate_number: varchar("estimate_number", { length: 50 }).notNull().unique(),
   job_id: uuid("job_id").references(() => jobs.id, { onDelete: "set null" }),
   lead_id: uuid("lead_id").references(() => leads.id, { onDelete: "set null" }),
@@ -163,10 +192,12 @@ export const estimates = pgTable("estimates", {
   jobIdx: index("estimates_job_idx").on(t.job_id),
   customerIdx: index("estimates_customer_idx").on(t.customer_id),
   statusIdx: index("estimates_status_idx").on(t.status),
+  tenantIdx: index("estimates_tenant_idx").on(t.tenant_id),
 }));
 
 export const invoices = pgTable("invoices", {
   id: uuid("id").primaryKey().defaultRandom(),
+  tenant_id: uuid("tenant_id").references(() => tenants.id, { onDelete: "restrict" }),
   invoice_number: varchar("invoice_number", { length: 50 }).notNull().unique(),
   job_id: uuid("job_id").notNull().references(() => jobs.id, { onDelete: "restrict" }),
   customer_id: uuid("customer_id").notNull().references(() => customers.id, { onDelete: "restrict" }),
@@ -186,10 +217,12 @@ export const invoices = pgTable("invoices", {
 }, (t) => ({
   jobIdx: index("invoices_job_idx").on(t.job_id),
   statusIdx: index("invoices_status_idx").on(t.status),
+  tenantIdx: index("invoices_tenant_idx").on(t.tenant_id),
 }));
 
 export const payments = pgTable("payments", {
   id: uuid("id").primaryKey().defaultRandom(),
+  tenant_id: uuid("tenant_id").references(() => tenants.id, { onDelete: "restrict" }),
   invoice_id: uuid("invoice_id").notNull().references(() => invoices.id, { onDelete: "cascade" }),
   amount: numeric("amount", { precision: 14, scale: 2 }).notNull(),
   method: paymentMethodEnum("method").notNull(),
@@ -199,6 +232,7 @@ export const payments = pgTable("payments", {
   notes: text("notes"),
 }, (t) => ({
   invoiceIdx: index("payments_invoice_idx").on(t.invoice_id),
+  tenantIdx: index("payments_tenant_idx").on(t.tenant_id),
 }));
 
 /* ============================================================
@@ -206,6 +240,7 @@ export const payments = pgTable("payments", {
  * ========================================================= */
 export const smart_documents = pgTable("smart_documents", {
   id: uuid("id").primaryKey().defaultRandom(),
+  tenant_id: uuid("tenant_id").references(() => tenants.id, { onDelete: "restrict" }),
   job_id: uuid("job_id").references(() => jobs.id, { onDelete: "set null" }),
   template_id: uuid("template_id"),
   title: varchar("title", { length: 200 }).notNull(),
@@ -222,6 +257,7 @@ export const smart_documents = pgTable("smart_documents", {
 }, (t) => ({
   jobIdx: index("smart_documents_job_idx").on(t.job_id),
   statusIdx: index("smart_documents_status_idx").on(t.status),
+  tenantIdx: index("smart_documents_tenant_idx").on(t.tenant_id),
 }));
 
 export const document_templates = pgTable("document_templates", {
