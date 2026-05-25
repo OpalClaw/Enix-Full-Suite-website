@@ -29,6 +29,7 @@ import { correlationId } from "./middleware/correlation.js";
 import { securityHeaders } from "./middleware/securityHeaders.js";
 
 import authRouter from "./routes/auth.js";
+import publicLeadsRouter from "./routes/public_leads.js";
 import leadsRouter from "./routes/leads.js";
 import jobsRouter from "./routes/jobs.js";
 import customersRouter from "./routes/customers.js";
@@ -59,11 +60,30 @@ if (allowed.length === 0 && process.env.NODE_ENV === "production") {
   logger.error("CORS_ORIGINS is empty in production — refusing to start");
   process.exit(1);
 }
+
+const allowedMatchers = allowed.map((entry) => {
+  if (entry.includes("*")) {
+    const pattern = entry
+      .replace(/[.+?^${}()|[\]\\]/g, "\\$&")
+      .replace(/\*/g, "[^./]+");
+    return { exact: null as string | null, regex: new RegExp(`^${pattern}$`) };
+  }
+  return { exact: entry, regex: null as RegExp | null };
+});
+
+function originAllowed(origin: string): boolean {
+  for (const m of allowedMatchers) {
+    if (m.exact !== null && m.exact === origin) return true;
+    if (m.regex !== null && m.regex.test(origin)) return true;
+  }
+  return false;
+}
+
 app.use(
   cors({
     origin: (origin, cb) => {
       if (!origin) return cb(null, true);
-      if (allowed.includes(origin)) return cb(null, true);
+      if (originAllowed(origin)) return cb(null, true);
       cb(new Error("origin_not_allowed"));
     },
     credentials: true,
@@ -137,6 +157,7 @@ app.get("/api/version", (_req, res) => {
 
 // ---- 9. Routes ----
 app.use("/api/auth", authRouter);
+app.use("/api/public", publicLeadsRouter);
 app.use("/api/leads", leadsRouter);
 app.use("/api/jobs", jobsRouter);
 app.use("/api/customers", customersRouter);

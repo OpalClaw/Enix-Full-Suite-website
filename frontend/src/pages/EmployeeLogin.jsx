@@ -1,37 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, ArrowLeft } from 'lucide-react';
-import { base44 } from '@/api/base44Client';
+import { ArrowRight, ArrowLeft, AlertCircle, Loader2 } from 'lucide-react';
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 export default function EmployeeLogin() {
   usePageTitle('Staff Login');
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   React.useEffect(() => {
-    const checkAuth = async () => {
-      const isAuth = await base44.auth.isAuthenticated();
-      if (isAuth) {
-        const user = await base44.auth.me();
-        if (user?.role === 'admin') {
-          navigate('/crm');
-        } else if (user?.role === 'user') {
-          navigate('/portal');
-        }
-      }
-    };
-    checkAuth();
+    fetch(`${API_BASE}/api/auth/me`, { credentials: 'include' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        const role = data?.user?.role;
+        if (role === 'admin' || role === 'manager' || role === 'office') navigate('/crm');
+        else if (role === 'client') navigate('/portal');
+      })
+      .catch(() => {});
   }, [navigate]);
 
-  const handleLogin = () => {
-    base44.auth.redirectToLogin('/crm');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(data?.message || 'Invalid email or password');
+        return;
+      }
+      const role = data?.user?.role;
+      if (role === 'admin' || role === 'manager' || role === 'office') {
+        navigate('/crm');
+      } else {
+        setError('This account does not have staff access. Use the client portal instead.');
+      }
+    } catch (err) {
+      setError('Network error — please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-navy-900 to-navy-500 flex items-center justify-center p-4">
-      <Button 
+      <Button
         variant="outline"
         onClick={() => navigate('/')}
         className="absolute top-6 left-6 bg-white/10 border-white/30 text-white hover:bg-white/20"
@@ -39,25 +67,60 @@ export default function EmployeeLogin() {
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back
       </Button>
-      <div className="w-full max-w-md mb-4 p-3 rounded-lg bg-amber-50 border border-amber-200 text-sm text-amber-900">
-        <strong>Staff portal in setup.</strong> If login isn't working yet, contact your manager.
-      </div>
       <Card className="w-full max-w-md">
         <CardHeader className="text-center pb-6">
-          <img 
-            src="https://media.base44.com/images/public/user_6a0541ba998771a1f2cb4ab0/ae967f6a7_Enix.png" 
-            alt="Enix Exteriors" 
-            className="h-16 mx-auto mb-4"
-          />
+          <div className="flex items-center justify-center mb-3">
+            <span className="text-2xl font-extrabold tracking-tight text-navy-700">ENIX</span>
+            <span className="ml-2 text-sm font-semibold text-navy-500">EXTERIORS</span>
+          </div>
           <CardTitle className="text-2xl">Employee Dashboard</CardTitle>
-          <p className="text-sm text-muted-foreground mt-2">Manage leads, jobs, and customer communications</p>
+          <p className="text-sm text-muted-foreground mt-2">
+            Manage leads, jobs, and customer communications
+          </p>
         </CardHeader>
         <CardContent>
-          <Button onClick={handleLogin} className="w-full h-11 bg-navy-500 hover:bg-navy-600 text-white font-semibold flex items-center justify-center gap-2">
-            Sign In <ArrowRight className="w-4 h-4" />
-          </Button>
+          <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+            <div className="space-y-1.5">
+              <Label htmlFor="emp-email">Email</Label>
+              <Input
+                id="emp-email"
+                type="email"
+                autoComplete="username"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={submitting}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="emp-password">Password</Label>
+              <Input
+                id="emp-password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={submitting}
+              />
+            </div>
+            {error && (
+              <div className="flex items-start gap-2 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-900">
+                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
+            <Button
+              type="submit"
+              disabled={submitting || !email || !password}
+              className="w-full h-11 bg-navy-500 hover:bg-navy-600 text-white font-semibold flex items-center justify-center gap-2"
+            >
+              {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Sign In'}
+              {!submitting && <ArrowRight className="w-4 h-4" />}
+            </Button>
+          </form>
           <p className="text-xs text-muted-foreground text-center mt-4">
-            Admin access required
+            Admin, manager, or office role required
           </p>
         </CardContent>
       </Card>

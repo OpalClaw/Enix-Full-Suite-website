@@ -7,13 +7,23 @@ if (!connectionString) {
   throw new Error("DATABASE_URL is required");
 }
 
+function shouldUseSsl(url: string): false | { rejectUnauthorized: boolean } {
+  if (process.env.PGSSLMODE === "disable") return false;
+  const isLocal =
+    url.includes("localhost") ||
+    url.includes("127.0.0.1") ||
+    url.includes("?host=/") ||
+    url.includes("&host=/");
+  if (isLocal) return false;
+  if (process.env.NODE_ENV === "production") return { rejectUnauthorized: false };
+  return false;
+}
+
 export const pool = new pg.Pool({
   connectionString,
   max: Number(process.env.DB_POOL_MAX || 20),
   idleTimeoutMillis: 30_000,
-  ssl: process.env.NODE_ENV === "production" && !connectionString.includes("localhost")
-    ? { rejectUnauthorized: false }
-    : undefined,
+  ssl: shouldUseSsl(connectionString),
 });
 
 pool.on("error", (err) => {

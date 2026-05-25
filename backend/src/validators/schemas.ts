@@ -2,12 +2,12 @@ import { z } from "zod";
 
 // ---- Auth ----
 export const loginSchema = z.object({
-  email: z.string().email().max(255),
+  email: z.string().email().max(255).toLowerCase(),
   password: z.string().min(8).max(200),
 });
 
 export const registerSchema = z.object({
-  email: z.string().email().max(255),
+  email: z.string().email().max(255).toLowerCase(),
   password: z.string().min(8).max(200),
   full_name: z.string().min(2).max(200),
   phone: z.string().max(20).optional(),
@@ -15,14 +15,14 @@ export const registerSchema = z.object({
 
 export const clientLoginSchema = z.object({
   job_number: z.string().min(3).max(50),
-  email: z.string().email().max(255),
+  email: z.string().email().max(255).toLowerCase(),
 });
 
 // ---- Leads ----
 export const createLeadSchema = z.object({
   first_name: z.string().min(1).max(100),
   last_name: z.string().max(100).optional().default(""),
-  email: z.string().email().max(255),
+  email: z.string().email().max(255).toLowerCase(),
   phone: z.string().min(7).max(20),
   service: z.string().max(100).optional(),
   property_type: z.enum(["residential", "commercial"]).optional().default("residential"),
