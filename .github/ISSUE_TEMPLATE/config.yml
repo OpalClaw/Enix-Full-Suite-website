@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: 🔒 Private security disclosure
-    url: mailto:security@opalsagelabs.dev
+    url: mailto:OpalClaw@opalsagelabs.click
     about: Report a vulnerability privately. Do not open a public issue.
   - name: 💬 Discussions
     url: https://github.com/OpalClaw/Enix-Full-Suite-website/discussions

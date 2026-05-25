@@ -43,7 +43,7 @@ an individual is officially representing the community in public spaces.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the project maintainers at **conduct@opalsagelabs.dev**. All
+reported to the project maintainers at **OpalClaw@opalsagelabs.click**. All
 complaints will be reviewed and investigated promptly and fairly.
 
 ## Attribution

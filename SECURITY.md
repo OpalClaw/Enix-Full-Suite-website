@@ -11,7 +11,7 @@
 
 **Do not open a public issue for a security vulnerability.**
 
-Email **security@opalsagelabs.dev** with:
+Email **OpalClaw@opalsagelabs.click** with:
 
 - A description of the issue and its impact
 - Steps to reproduce (proof-of-concept code or commands welcome)
