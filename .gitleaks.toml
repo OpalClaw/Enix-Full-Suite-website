@@ -1,0 +1,28 @@
+title = "Enix Exteriors — gitleaks config"
+
+# Use the gitleaks default rule set + project-specific allow-list.
+[extend]
+useDefault = true
+
+# Files / paths that legitimately contain values that look like secrets
+# (example env files, fixture data, etc.). Tighten over time.
+[allowlist]
+description = "Project allowlist"
+paths = [
+  '''\.env\.example$''',
+  '''docs/.*\.md$''',
+  '''README\.md$''',
+  '''HANDOFF\.md$''',
+  '''CHANGELOG\.md$''',
+]
+
+# Allow placeholders only — never real credentials.
+regexTarget = "match"
+regexes = [
+  '''ci-test-[a-z0-9-]+''',
+  '''ci-jwt-(access|refresh)-test-[a-z0-9-]+''',
+  '''dummy-[a-z0-9-]+''',
+  '''<opaque-random>''',
+  '''<your-.*>''',
+  '''REPLACE_WITH_[A-Z0-9_]+''',
+]

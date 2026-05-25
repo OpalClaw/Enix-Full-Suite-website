@@ -1,0 +1,29 @@
+# Code owners for the Enix Exteriors Full Suite monorepo.
+# Required reviewers per area. Owners are auto-requested on PRs.
+
+# Global default — every change requires a security architect review
+*                              @OpalClaw
+
+# Backend (Express + Drizzle + Postgres)
+/backend/                      @OpalClaw
+/backend/src/auth/             @OpalClaw
+/backend/src/db/               @OpalClaw
+/backend/src/middleware/       @OpalClaw
+
+# Leads-API (Hono on Zo Space)
+/leads-api/                    @OpalClaw
+
+# Frontend (React + Vite)
+/frontend/                     @OpalClaw
+
+# Security-sensitive surfaces — extra scrutiny
+SECURITY.md                    @OpalClaw
+/backend/src/auth/             @OpalClaw
+/.github/workflows/            @OpalClaw
+/backend/src/db/schema.ts      @OpalClaw
+/backend/src/db/migrations/    @OpalClaw
+
+# Documentation
+/docs/                         @OpalClaw
+README.md                      @OpalClaw
+ARCHITECTURE.md                @OpalClaw

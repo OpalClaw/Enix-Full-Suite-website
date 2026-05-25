@@ -1,0 +1,64 @@
+name: 🐛 Bug Report
+description: Report a reproducible bug
+title: "[bug] "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug. Please complete every field below.
+        **For security vulnerabilities, do not open a public issue —
+        follow `SECURITY.md` instead.**
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - frontend
+        - backend
+        - leads-api
+        - infrastructure / CI
+        - documentation
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit SHA
+      placeholder: "v1.0.0 or 97d112e"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Numbered, copy-paste-able steps.
+      placeholder: |
+        1. Go to `/login`
+        2. Enter invalid credentials
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+      description: Redact any secrets, tokens, or PII before pasting.
+      render: shell
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "Chrome 120 / macOS 14 / Node 20.10"

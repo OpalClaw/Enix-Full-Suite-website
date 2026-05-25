@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish release
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+        env:
+          VITE_API_URL: "${{ vars.VITE_API_URL || 'https://api.example.com' }}"
+          VITE_LEADS_API_URL: "${{ vars.VITE_LEADS_API_URL || 'https://leads.example.com' }}"
+          VITE_BACKEND_ENABLED: "true"
+
+      - name: Build backend
+        working-directory: ./backend
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+
+      - name: Package artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          tar -C frontend -czf "artifacts/enix-frontend-${GITHUB_REF_NAME}.tar.gz" dist
+          tar -C backend -czf "artifacts/enix-backend-${GITHUB_REF_NAME}.tar.gz" dist package.json package-lock.json
+          tar -C leads-api -czf "artifacts/enix-leads-api-${GITHUB_REF_NAME}.tar.gz" \
+            enix-lead.ts enix-leads-export.ts README.md
+          (cd artifacts && sha256sum *.tar.gz > SHA256SUMS.txt)
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          set -euo pipefail
+          PREV=$(git tag --sort=-creatordate | sed -n '2p' || true)
+          if [ -n "$PREV" ]; then
+            git log --pretty='format:- %s (%h)' "${PREV}..${GITHUB_REF_NAME}" > artifacts/CHANGELOG.txt
+          else
+            git log --pretty='format:- %s (%h)' > artifacts/CHANGELOG.txt
+          fi
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Enix Exteriors ${{ github.ref_name }}"
+          body_path: artifacts/CHANGELOG.txt
+          files: |
+            artifacts/*.tar.gz
+            artifacts/SHA256SUMS.txt
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-rc') || contains(github.ref_name, '-beta') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
