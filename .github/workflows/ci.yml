@@ -44,7 +44,7 @@ jobs:
           VITE_LEAD_API_URL: "https://leads.example.com"
           VITE_BACKEND_ENABLED: "true"
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: frontend-dist
           path: frontend/dist
