@@ -1,6 +1,6 @@
 {
   "name": "enix-leads-api",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Public lead-intake endpoints for Enix Exteriors, deployed to Zo Space (Hono on Bun).",
   "type": "module",

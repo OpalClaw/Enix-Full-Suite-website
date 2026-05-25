@@ -1,6 +1,6 @@
 {
   "name": "enix-api",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Enix Exteriors backend API (replaces Base44 SDK). Express 5 + Drizzle ORM + PostgreSQL + JWT.",
   "type": "module",
