@@ -2,9 +2,10 @@ name: CI
 
 on:
   push:
-    branches: [main, enterprise-audit-v1]
+    branches: [main, enterprise-audit-v1, "ci/**"]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
