@@ -7,7 +7,7 @@
 
 # Enix Exteriors — Full Suite
 
-**Production-grade roofing CRM, client portal, and lead-intake suite.** A modern, fully owned alternative to ServiceTitan, JobNimbus, and Base44 — engineered, hardened, and operated by [OpalSageLabs](https://github.com/OpalClaw).
+**Production-grade roofing CRM, client portal, and lead-intake suite.** A modern, fully owned alternative to ServiceTitan, JobNimbus, and Base44 engineered, hardened, and operated by [OpalSageLabs](https://github.com/OpalClaw).
 
 <br />
 
@@ -27,7 +27,7 @@
 
 ## Overview
 
-**Enix Exteriors — Full Suite** is the production codebase that powers an entire roofing and exterior services business: a public marketing site, a 50-article SEO Education Hub, a hardened lead-intake pipeline, an internal CRM dashboard, a self-service client portal, and a SmartDocs estimate-to-signature engine. It is a fully owned alternative to vendor-locked platforms like ServiceTitan, JobNimbus, and Base44 — built so a single roofing operator (or a multi-tenant fleet of them) can run their entire revenue motion on infrastructure they actually own.
+**Enix Exteriors — Full Suite** is the production codebase that powers an entire roofing and exterior services business: a public marketing site, a 50-article SEO Education Hub, a hardened lead-intake pipeline, an internal CRM dashboard, a self-service client portal, and a SmartDocs estimate-to-signature engine. It is a fully owned alternative to vendor-locked platforms like ServiceTitan, JobNimbus, and Base44 built so a single roofing operator (or a multi-tenant fleet of them) can run their entire revenue motion on infrastructure they actually own.
 
 The repository is organized as a three-component monorepo and is **deployable today as a single-tenant install**, with a documented, additive migration path to multi-tenant SaaS already laid into the schema and middleware. Every component is independently buildable, testable, and shippable, with hardened defaults, structured logs, correlation IDs across requests, and a security posture aligned with OWASP ASVS Level 2 and the OpalSageLabs enterprise engineering standard.
 
@@ -110,7 +110,7 @@ Aligned with OWASP ASVS Level 2 and audited under the OpalSageLabs enterprise st
 - **Operations.** Correlation ID on every request, propagated to logs and error responses. Pino structured logs. Graceful shutdown with 10s hard-stop. Helmet defaults extended with explicit permissions policy.
 - **Supply chain.** Dependabot weekly on all three ecosystems. CodeQL `security-extended` on every PR. gitleaks pre-commit. License allowlist in CI. PRs are gated by branch protection requiring all checks + CODEOWNERS review.
 
-Private disclosure: **security@opalsagelabs.dev** — see [`SECURITY.md`](./SECURITY.md).
+Private disclosure: **OpalClaw@opalsagelabs.click** — see [`SECURITY.md`](./SECURITY.md).
 
 ---
 
@@ -156,13 +156,13 @@ This software is delivered under a **commercial license** to Enix Exteriors LLC 
 
 © 2026 OpalSage Labs / OpalClaw. All rights reserved.
 
-For commercial licensing, enterprise support, white-label deployments, or custom builds: **hello@opalsagelabs.dev**.
+For commercial licensing, enterprise support, white-label deployments, or custom builds: **OpalClaw@opalsagelabs.click**.
 
 ---
 
 <div align="center">
 
 **Built and operated by [OpalSageLabs](https://github.com/OpalClaw).**
-For commercial licensing, enterprise support, or custom builds — **hello@opalsagelabs.dev**.
+For commercial licensing, enterprise support, or custom builds — **OpalClaw@opalsagelabs.click**.
 
 </div>
