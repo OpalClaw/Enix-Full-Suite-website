@@ -5,7 +5,7 @@
 <br />
 <br />
 
-# Enix Exteriors — Full Suite
+# Enix Exteriors Full Suite
 
 **Production-grade roofing CRM, client portal, and lead-intake suite.** A modern, fully owned alternative to ServiceTitan, JobNimbus, and Base44 engineered, hardened, and operated by [OpalSageLabs](https://github.com/OpalClaw).
 
@@ -27,7 +27,7 @@
 
 ## Overview
 
-**Enix Exteriors — Full Suite** is the production codebase that powers an entire roofing and exterior services business: a public marketing site, a 50-article SEO Education Hub, a hardened lead-intake pipeline, an internal CRM dashboard, a self-service client portal, and a SmartDocs estimate-to-signature engine. It is a fully owned alternative to vendor-locked platforms like ServiceTitan, JobNimbus, and Base44 built so a single roofing operator (or a multi-tenant fleet of them) can run their entire revenue motion on infrastructure they actually own.
+**Enix Exteriors Full Suite** is the production codebase that powers an entire roofing and exterior services business: a public marketing site, a 50-article SEO Education Hub, a hardened lead-intake pipeline, an internal CRM dashboard, a self-service client portal, and a SmartDocs estimate-to-signature engine. It is a fully owned alternative to vendor-locked platforms like ServiceTitan, JobNimbus, and Base44 built so a single roofing operator (or a multi-tenant fleet of them) can run their entire revenue motion on infrastructure they actually own.
 
 The repository is organized as a three-component monorepo and is **deployable today as a single-tenant install**, with a documented, additive migration path to multi-tenant SaaS already laid into the schema and middleware. Every component is independently buildable, testable, and shippable, with hardened defaults, structured logs, correlation IDs across requests, and a security posture aligned with OWASP ASVS Level 2 and the OpalSageLabs enterprise engineering standard.
 
