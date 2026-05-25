@@ -22,8 +22,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { format } from 'date-fns';
-import { Plus, Upload, Trash2, Download } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 
 const statusColors = {
   new: 'bg-blue-100 text-blue-700',

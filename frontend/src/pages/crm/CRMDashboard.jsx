@@ -4,14 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  TrendingUp, AlertCircle, Clock, DollarSign, CheckCircle2, 
-  Users, FileText, Zap, ArrowRight, Calendar, Briefcase, Settings as SettingsIcon
+import { CheckCircle2, 
+  Users, FileText, Briefcase
 } from 'lucide-react';
 import { format } from 'date-fns';
-import DashboardSettings from '@/components/crm/DashboardSettings';
 import { usePageTitle } from '@/hooks/usePageTitle';
 
 export default function CRMDashboard() {

@@ -4,7 +4,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
 import { Plus, Trash2, Send, Loader2 } from 'lucide-react';
 
 export default function InvoiceForm({ jobId, trigger = 'Create Invoice', onSuccess }) {

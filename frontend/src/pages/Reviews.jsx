@@ -1,7 +1,6 @@
 import React from 'react';
 import { usePageTitle } from '@/hooks/usePageTitle';
-import { Card } from '@/components/ui/card';
-import { Star, Quote } from 'lucide-react';
+import { Star } from 'lucide-react';
 import CTASection from '../components/public/CTASection';
 import { motion } from 'framer-motion';
 

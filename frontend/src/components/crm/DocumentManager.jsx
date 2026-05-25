@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { FileUp, Send, PenTool, Loader2, Download, X } from 'lucide-react';
+import { FileUp, Send, PenTool, Loader2, Download } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function DocumentManager({ jobId, leadId, customerEmail, customerName, documents = [], onDocumentsChange }) {

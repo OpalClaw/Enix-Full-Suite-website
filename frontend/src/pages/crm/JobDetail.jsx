@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Phone, Mail, MapPin, Calendar, DollarSign, FileText, Image, MessageSquare } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { format } from 'date-fns';
-import EstimateForm from '@/components/crm/EstimateForm';
 import EstimateBuilder from '@/components/crm/EstimateBuilder';
 import JobStatusUpdater from '@/components/crm/JobStatusUpdater';
 import JobOverviewEditor from '@/components/crm/JobOverviewEditor';
 import JobInvoiceBuilder from '@/components/crm/JobInvoiceBuilder';
 import JobDocumentsTab from '@/components/crm/JobDocumentsTab';
-import InvoiceForm from '@/components/crm/InvoiceForm';
 import { jobStatusColors } from '@/lib/jobStatusColors';
 
 const statusColors = jobStatusColors;

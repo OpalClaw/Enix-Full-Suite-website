@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import StatCard from '../../components/crm/StatCard';
-import { Users, Briefcase, DollarSign, TrendingUp, Calendar, ClipboardList, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Users, Briefcase, DollarSign, TrendingUp, Calendar } from 'lucide-react';
 import { format } from 'date-fns';
 
 const statusColors = {

@@ -3,16 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Save, Send, X, Type, Image as ImageIcon, Signature, AlertCircle, Loader2 } from 'lucide-react';
+import { Save, X, Signature, AlertCircle, Loader2 } from 'lucide-react';
 import DocumentCanvas from '@/components/smartdocs/DocumentCanvas';
 import SmartFieldsPicker from '@/components/smartdocs/SmartFieldsPicker';
 import SmartDocumentPreview from '@/components/smartdocs/SmartDocumentPreview';
 import ToolbarTop from '@/components/smartdocs/ToolbarTop';
 import SignaturePanel from '@/components/smartdocs/SignaturePanel';
-import { replaceMergeFields } from '@/lib/smartDocFieldEngine';
 
 export default function SmartDocumentEditor({ documentId }) {
   const navigate = useNavigate();

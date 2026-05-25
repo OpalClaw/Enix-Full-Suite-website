@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card } from '@/components/ui/card';
 
 export default function DocumentCanvas({ blocks, setBlocks, selectedBlock, setSelectedBlock }) {
   const handleBlockClick = (block) => {

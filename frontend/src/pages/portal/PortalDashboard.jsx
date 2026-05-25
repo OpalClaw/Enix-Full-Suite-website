@@ -4,8 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Briefcase, Calendar, DollarSign, MessageSquare, CheckCircle2, Clock, ChevronRight } from 'lucide-react';
+import { Briefcase, Calendar, DollarSign, CheckCircle2, Clock, ChevronRight } from 'lucide-react';
 import { format } from 'date-fns';
 
 const statusColors = {
