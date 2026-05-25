@@ -13,7 +13,7 @@
 
 [![CI](https://github.com/OpalClaw/Enix-Full-Suite-website/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/OpalClaw/Enix-Full-Suite-website/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/OpalClaw/Enix-Full-Suite-website/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/OpalClaw/Enix-Full-Suite-website/actions/workflows/codeql.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg)](./LICENSE)
+[![License: Commercial](https://img.shields.io/badge/license-Commercial-8b5cf6.svg)](./LICENSE)
 [![Version](https://img.shields.io/badge/version-0.1.0-3b82f6.svg)](https://github.com/OpalClaw/Enix-Full-Suite-website/releases)
 [![Node](https://img.shields.io/badge/node-%E2%89%A520-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org)
 [![Bun](https://img.shields.io/badge/bun-%E2%89%A51.1-000?logo=bun&logoColor=white)](https://bun.sh)
@@ -127,7 +127,7 @@ Private disclosure: **security@opalsagelabs.dev** — see [`SECURITY.md`](./SECU
 ├── CHANGELOG.md          Keep a Changelog format, SemVer
 ├── CODE_OF_CONDUCT.md    Contributor Covenant 2.1
 ├── CONTRIBUTING.md       Development setup, conventions, PR process
-├── LICENSE               MIT
+├── LICENSE               Commercial — proprietary to Enix Exteriors LLC
 ├── Makefile              install · build · test · lint · migrate · security
 ├── README.md             You are here
 └── SECURITY.md           Private disclosure pipeline + supported versions
@@ -152,7 +152,11 @@ See [issues](https://github.com/OpalClaw/Enix-Full-Suite-website/issues) for liv
 
 ## License
 
-[MIT](./LICENSE) © 2026 OpalSageLabs.
+This software is delivered under a **commercial license** to Enix Exteriors LLC for their internal business use. See [`LICENSE`](./LICENSE) for the full terms.
+
+© 2026 OpalSage Labs / OpalClaw. All rights reserved.
+
+For commercial licensing, enterprise support, white-label deployments, or custom builds: **hello@opalsagelabs.dev**.
 
 ---
 
