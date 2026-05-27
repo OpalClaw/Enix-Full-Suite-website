@@ -18,7 +18,7 @@ export default function ClientLogin() {
   const [error, setError] = useState(null);
 
   React.useEffect(() => {
-    fetch(`${API_BASE}/api/auth/me`, { credentials: 'include' })
+    fetch(`${API_BASE}/auth/me`, { credentials: 'include' })
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
         if (data?.user) navigate('/portal');
@@ -31,7 +31,7 @@ export default function ClientLogin() {
     setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch(`${API_BASE}/api/auth/login`, {
+      const res = await fetch(`${API_BASE}/auth/client-login`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
