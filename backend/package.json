@@ -27,7 +27,7 @@
     "express-rate-limit": "^7.5.0",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
-    "nodemailer": "^6.9.16",
+    "nodemailer": "^8.0.5",
     "pdf-lib": "^1.17.1",
     "pg": "^8.13.1",
     "pino": "^9.5.0",
