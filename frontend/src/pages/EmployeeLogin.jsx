@@ -18,11 +18,11 @@ export default function EmployeeLogin() {
   const [error, setError] = useState(null);
 
   React.useEffect(() => {
-    fetch(`${API_BASE}/api/auth/me`, { credentials: 'include' })
+    fetch(`${API_BASE}/auth/me`, { credentials: 'include' })
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
         const role = data?.user?.role;
-        if (role === 'admin' || role === 'manager' || role === 'office') navigate('/crm');
+        if (role && role !== 'client') navigate('/crm');
         else if (role === 'client') navigate('/portal');
       })
       .catch(() => {});
@@ -33,7 +33,7 @@ export default function EmployeeLogin() {
     setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch(`${API_BASE}/api/auth/login`, {
+      const res = await fetch(`${API_BASE}/auth/login`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -45,7 +45,7 @@ export default function EmployeeLogin() {
         return;
       }
       const role = data?.user?.role;
-      if (role === 'admin' || role === 'manager' || role === 'office') {
+      if (role && role !== 'client') {
         navigate('/crm');
       } else {
         setError('This account does not have staff access. Use the client portal instead.');
