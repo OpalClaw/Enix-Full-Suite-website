@@ -20,7 +20,7 @@ const createDocSchema = z.object({
   template_id: z.string().uuid().optional(),
   title: z.string().min(1).max(200),
   document_type: z.string().min(1).max(50),
-  content: z.record(z.unknown()).default({}),
+  content: z.record(z.string(), z.unknown()).default({}),
   recipients: z.array(recipientSchema).min(0).default([]),
 });
 

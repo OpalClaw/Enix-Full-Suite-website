@@ -96,7 +96,7 @@ export const createEstimateSchema = z.object({
   lead_id: z.string().uuid().optional(),
   customer_id: z.string().uuid().optional(),
   line_items: z.array(lineItemSchema).default([]),
-  measurements: z.record(z.unknown()).optional(),
+  measurements: z.record(z.string(), z.unknown()).optional(),
   valid_until: z.string().datetime().optional(),
 });
 
@@ -236,7 +236,7 @@ export const createWarrantySchema = z.object({
   coverage_details: z.string().max(10000).optional(),
   document_url: z.string().url().max(1000).optional(),
   active: z.boolean().optional().default(true),
-  claims: z.array(z.record(z.unknown())).optional(),
+  claims: z.array(z.record(z.string(), z.unknown())).optional(),
   notes: z.string().max(5000).optional(),
 });
 export const updateWarrantySchema = createWarrantySchema.partial();
@@ -275,7 +275,7 @@ export const createInspectionSchema = z.object({
   ventilation_notes: z.string().max(5000).optional(),
   flashing_notes: z.string().max(5000).optional(),
   storm_damage_checklist: z.array(z.string().max(200)).optional(),
-  checklist: z.record(z.unknown()).optional(),
+  checklist: z.record(z.string(), z.unknown()).optional(),
   insurance_claim_notes: z.string().max(5000).optional(),
   recommended_scope: z.string().max(10000).optional(),
   photo_urls: z.array(z.string().url().max(1000)).optional(),
@@ -303,8 +303,8 @@ export const createContractSchema = z.object({
   start_date: z.string().datetime({ offset: true }).or(z.string().min(8)).optional(),
   end_date: z.string().datetime({ offset: true }).or(z.string().min(8)).optional(),
   terms: z.string().max(50000).optional(),
-  body_content: z.record(z.unknown()).optional(),
-  line_items: z.array(z.record(z.unknown())).optional(),
+  body_content: z.record(z.string(), z.unknown()).optional(),
+  line_items: z.array(z.record(z.string(), z.unknown())).optional(),
 });
 export const updateContractSchema = createContractSchema.partial();
 
@@ -334,7 +334,7 @@ export const updateProposalSchema = createProposalSchema.partial();
 export const createCrewSchema = z.object({
   name: z.string().min(1).max(200),
   lead_id: z.string().uuid().optional().nullable(),
-  members: z.array(z.record(z.unknown())).optional(),
+  members: z.array(z.record(z.string(), z.unknown())).optional(),
   active: z.boolean().optional().default(true),
 });
 export const updateCrewSchema = createCrewSchema.partial();
@@ -457,7 +457,7 @@ export const createActivitySchema = z.object({
   entity_type: z.string().min(1).max(50),
   entity_id: z.string().uuid(),
   action: z.string().min(1).max(50),
-  metadata: z.record(z.unknown()).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
 // ============================================================================
@@ -465,14 +465,14 @@ export const createActivitySchema = z.object({
 // ============================================================================
 export const updateSettingSchema = z.object({
   key: z.string().min(1).max(100),
-  value: z.record(z.unknown()),
+  value: z.record(z.string(), z.unknown()),
 });
 
 export const bulkUpdateSettingsSchema = z.object({
   settings: z.array(
     z.object({
       key: z.string().min(1).max(100),
-      value: z.record(z.unknown()),
+      value: z.record(z.string(), z.unknown()),
     }),
   ),
 });

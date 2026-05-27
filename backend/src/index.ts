@@ -115,11 +115,13 @@ app.use(express.urlencoded({ extended: false, limit: "1mb" }));
 app.use(cookieParser());
 
 // ---- 7. Pino request logger (binds correlation ID into log lines) ----
+// pino-http v11 introduced strict typing on `logger` that doesn't accept a
+// generic Logger; cast to satisfy the type checker. Runtime behavior unchanged.
 app.use(
   pinoHttp({
     logger,
-    genReqId: (req) => {
-      const id = (req as IncomingMessage & { correlationId?: string }).correlationId;
+    genReqId: (req: IncomingMessage & { correlationId?: string }) => {
+      const id = req.correlationId;
       return id ?? randomUUID();
     },
     customLogLevel: (_req: IncomingMessage, res: ServerResponse, err?: Error) => {
@@ -127,8 +129,9 @@ app.use(
       if (res.statusCode >= 400) return "warn";
       return "info";
     },
-    customSuccessMessage: (req, res) => `${req.method} ${req.url} -> ${res.statusCode}`,
-    customErrorMessage: (req, res, err) =>
+    customSuccessMessage: (req: IncomingMessage, res: ServerResponse) =>
+      `${req.method} ${req.url} -> ${res.statusCode}`,
+    customErrorMessage: (req: IncomingMessage, res: ServerResponse, err: Error) =>
       `${req.method} ${req.url} -> ${res.statusCode} (${err.message})`,
     serializers: {
       req: (req: { id: string; method: string; url: string; headers: Record<string, unknown> }) => ({
@@ -138,7 +141,7 @@ app.use(
         // Note: pino global redact handles authorization/cookie headers already.
       }),
     },
-  }),
+  } as unknown as Parameters<typeof pinoHttp>[0]),
 );
 
 // ---- 8. Health & version ----
