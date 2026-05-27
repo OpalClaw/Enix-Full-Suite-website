@@ -230,6 +230,10 @@ export const invoices = pgTable("invoices", {
   line_items: jsonb("line_items").$type<unknown[]>().default(sql`'[]'::jsonb`),
   payment_terms: text("payment_terms"),
   message: text("message"),
+  quickbooks_id: varchar("quickbooks_id", { length: 64 }),
+  quickbooks_doc_number: varchar("quickbooks_doc_number", { length: 64 }),
+  quickbooks_synced_at: timestamp("quickbooks_synced_at", { withTimezone: true }),
+  quickbooks_sync_error: text("quickbooks_sync_error"),
   created_at: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updated_at: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 }, (t) => ({

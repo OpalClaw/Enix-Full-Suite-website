@@ -109,6 +109,25 @@ export const createInvoiceSchema = z.object({
   message: z.string().max(2000).optional(),
 });
 
+export const invoiceStatusValues = [
+  "draft",
+  "sent",
+  "viewed",
+  "partial",
+  "paid",
+  "overdue",
+  "void",
+] as const;
+
+export const updateInvoiceSchema = z.object({
+  customer_id: z.string().uuid().optional(),
+  line_items: z.array(lineItemSchema).optional(),
+  due_date: z.string().datetime().nullable().optional(),
+  payment_terms: z.string().max(500).nullable().optional(),
+  message: z.string().max(2000).nullable().optional(),
+  status: z.enum(invoiceStatusValues).optional(),
+});
+
 // ---- Pagination ----
 export const paginationSchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(50),
@@ -360,6 +379,7 @@ export const ROLE_VALUES = [
 
 export const updateUserSchema = z.object({
   full_name: z.string().min(2).max(200).optional(),
+  email: z.string().email().max(255).toLowerCase().optional(),
   role: z.enum(ROLE_VALUES).optional(),
   phone: z.string().max(20).optional(),
   title: z.string().max(100).optional(),
@@ -367,6 +387,7 @@ export const updateUserSchema = z.object({
   assigned_territory: z.string().max(200).optional(),
   crew_id: z.string().uuid().nullable().optional(),
   active: z.boolean().optional(),
+  password: z.string().min(8).max(200).optional(),
 });
 
 export const inviteEmployeeSchema = z.object({
@@ -380,6 +401,9 @@ export const inviteEmployeeSchema = z.object({
   crew_id: z.string().uuid().nullable().optional(),
   // Optional pre-shared password; if absent a one-time link will be emailed.
   password: z.string().min(8).max(200).optional(),
+  // When false, the invite email is skipped entirely. Defaults to true to
+  // preserve the original invite-by-email behavior.
+  send_invite: z.boolean().optional().default(true),
 });
 
 export const inviteClientSchema = z.object({
