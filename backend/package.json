@@ -21,7 +21,7 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "docusign-esign": "^8.2.0",
-    "dotenv": "^16.4.7",
+    "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "express": "^5.0.1",
     "express-rate-limit": "^7.5.0",
