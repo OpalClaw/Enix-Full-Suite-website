@@ -44,7 +44,16 @@ const STATUSES = [
 
 const STATUS_COLORS = {
   not_started: 'bg-gray-100 text-gray-700',
+  in_progress: 'bg-blue-100 text-blue-700',
+  completed: 'bg-green-100 text-green-700',
+  overdue: 'bg-red-100 text-red-700',
+  cancelled: 'bg-gray-100 text-gray-500',
 };
+
+const FILTER_OPTIONS = [
+  { value: 'all', label: 'All' },
+  ...STATUSES,
+];
 
 const EMPTY_FORM = {
   title: '',
@@ -160,14 +169,14 @@ export default function Tasks() {
       )}
 
       <div className="flex gap-2 flex-wrap">
-        {['all', ...STATUSES].map((s) => (
+        {FILTER_OPTIONS.map((opt) => (
           <Button
-            key={s}
-            variant={statusFilter === s ? 'default' : 'outline'}
+            key={opt.value}
+            variant={statusFilter === opt.value ? 'default' : 'outline'}
             size="sm"
-            onClick={() => setStatusFilter(s)}
+            onClick={() => setStatusFilter(opt.value)}
           >
-            {s.replace(/_/g, ' ')}
+            {opt.label}
           </Button>
         ))}
       </div>

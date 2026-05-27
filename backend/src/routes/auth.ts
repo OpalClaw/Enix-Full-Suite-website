@@ -454,20 +454,25 @@ router.post(
       // Best-effort invite email. If SMTP is not configured, surface the
       // temp password to the caller so the office can deliver it manually.
       let emailDelivered = false;
-      try {
-        const base = process.env.APP_BASE_URL || "https://enixexteriors.com";
-        await sendEmail({
-          to: data.email,
-          subject: "You've been invited to the Enix Exteriors CRM",
-          html: `<p>Hi ${data.full_name ?? ""},</p>
-                 <p>You've been invited to the Enix Exteriors CRM as a <b>${data.role.replace(/_/g, " ")}</b>.</p>
-                 <p>Login URL: <a href="${base}/login/employee">${base}/login/employee</a></p>
-                 <p>Email: ${data.email}<br/>Temporary password: <b>${tempPassword}</b></p>
-                 <p>Please change your password after first login.</p>`,
-        });
-        emailDelivered = true;
-      } catch (mailErr) {
-        logger.warn({ err: mailErr }, "invite email failed; returning temp password to caller");
+      let emailSkipped = false;
+      if (data.send_invite === false) {
+        emailSkipped = true;
+      } else {
+        try {
+          const base = process.env.APP_BASE_URL || "https://enixexteriors.com";
+          await sendEmail({
+            to: data.email,
+            subject: "You've been invited to the Enix Exteriors CRM",
+            html: `<p>Hi ${data.full_name ?? ""},</p>
+                   <p>You've been invited to the Enix Exteriors CRM as a <b>${data.role.replace(/_/g, " ")}</b>.</p>
+                   <p>Login URL: <a href="${base}/login/employee">${base}/login/employee</a></p>
+                   <p>Email: ${data.email}<br/>Temporary password: <b>${tempPassword}</b></p>
+                   <p>Please change your password after first login.</p>`,
+          });
+          emailDelivered = true;
+        } catch (mailErr) {
+          logger.warn({ err: mailErr }, "invite email failed; returning temp password to caller");
+        }
       }
 
       res.status(201).json({
@@ -475,6 +480,7 @@ router.post(
         email: user.email,
         role: user.role,
         email_delivered: emailDelivered,
+        email_skipped: emailSkipped,
         temp_password: emailDelivered ? undefined : tempPassword,
       });
     } catch (e) {

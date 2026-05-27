@@ -8,11 +8,12 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
-import { LogOut, Users, Settings as SettingsIcon, Plug, Building2 } from 'lucide-react';
+import { LogOut, Users, Settings as SettingsIcon, Plug, Building2, ShieldCheck } from 'lucide-react';
 import DashboardSettings from '@/components/crm/DashboardSettings';
 import EmployeeManagement from './EmployeeManagement';
 import IntegrationsPanel from '@/components/crm/IntegrationsPanel';
 import CompanyProfilePanel from '@/components/crm/CompanyProfilePanel';
+import PermissionsMatrix from '@/components/crm/PermissionsMatrix';
 
 export default function SettingsPage() {
   const navigate = useNavigate();
@@ -48,9 +49,12 @@ export default function SettingsPage() {
       </div>
 
       <Tabs defaultValue="team" className="w-full">
-        <TabsList className="grid grid-cols-4 w-full max-w-3xl">
+        <TabsList className="grid grid-cols-5 w-full max-w-3xl">
           <TabsTrigger value="team" className="gap-2">
             <Users className="w-4 h-4" /> Team
+          </TabsTrigger>
+          <TabsTrigger value="permissions" className="gap-2">
+            <ShieldCheck className="w-4 h-4" /> Permissions
           </TabsTrigger>
           <TabsTrigger value="integrations" className="gap-2">
             <Plug className="w-4 h-4" /> Integrations
@@ -65,6 +69,9 @@ export default function SettingsPage() {
 
         <TabsContent value="team" className="mt-6">
           <EmployeeManagement />
+        </TabsContent>
+        <TabsContent value="permissions" className="mt-6">
+          <PermissionsMatrix />
         </TabsContent>
         <TabsContent value="integrations" className="mt-6">
           <IntegrationsPanel />

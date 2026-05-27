@@ -3,10 +3,11 @@
 
 import { Router } from "express";
 import { desc, eq, sql } from "drizzle-orm";
+import argon2 from "argon2";
 import { db, schema } from "../db/index.js";
 import { requireAuth, requireRole } from "../auth/middleware.js";
 import { paginationSchema, updateUserSchema } from "../validators/schemas.js";
-import { NotFound, BadRequest } from "../utils/errors.js";
+import { NotFound, BadRequest, Forbidden } from "../utils/errors.js";
 
 const router = Router();
 
@@ -57,9 +58,26 @@ router.patch("/:id", requireAuth, requireRole("admin", "manager"), async (req, r
     if (data.role && req.user!.role !== "admin") {
       throw BadRequest("Only admins may change roles");
     }
+    // Only admins can reset passwords.
+    if (data.password && req.user!.role !== "admin") {
+      throw Forbidden("Only admins may reset passwords");
+    }
+
+    const { password, ...rest } = data;
+    const updatePayload: Record<string, unknown> = { ...rest, updated_at: new Date() };
+
+    if (password) {
+      updatePayload.password_hash = await argon2.hash(password, {
+        type: argon2.argon2id,
+        memoryCost: 19_456,
+        timeCost: 2,
+        parallelism: 1,
+      });
+    }
+
     const [item] = await db
       .update(schema.users)
-      .set({ ...data, updated_at: new Date() })
+      .set(updatePayload)
       .where(eq(schema.users.id, String(req.params.id)))
       .returning(USER_FIELDS);
     if (!item) throw NotFound();
