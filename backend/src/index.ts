@@ -36,6 +36,21 @@ import customersRouter from "./routes/customers.js";
 import estimatesRouter from "./routes/estimates.js";
 import invoicesRouter from "./routes/invoices.js";
 import smartdocsRouter from "./routes/smartdocs.js";
+import tasksRouter from "./routes/tasks.js";
+import appointmentsRouter from "./routes/appointments.js";
+import messagesRouter from "./routes/messages.js";
+import warrantiesRouter from "./routes/warranties.js";
+import inspectionsRouter from "./routes/inspections.js";
+import contractsRouter from "./routes/contracts.js";
+import proposalsRouter from "./routes/proposals.js";
+import crewsRouter from "./routes/crews.js";
+import usersRouter from "./routes/users.js";
+import materialsRouter from "./routes/materials.js";
+import activityRouter from "./routes/activity.js";
+import insuranceClaimsRouter from "./routes/insurance_claims.js";
+import reviewsRouter from "./routes/reviews.js";
+import paymentsRouter from "./routes/payments.js";
+import settingsRouter from "./routes/settings.js";
 
 const app = express();
 
@@ -164,6 +179,21 @@ app.use("/api/customers", customersRouter);
 app.use("/api/estimates", estimatesRouter);
 app.use("/api/invoices", invoicesRouter);
 app.use("/api/smartdocs", smartdocsRouter);
+app.use("/api/tasks", tasksRouter);
+app.use("/api/appointments", appointmentsRouter);
+app.use("/api/messages", messagesRouter);
+app.use("/api/warranties", warrantiesRouter);
+app.use("/api/inspections", inspectionsRouter);
+app.use("/api/contracts", contractsRouter);
+app.use("/api/proposals", proposalsRouter);
+app.use("/api/crews", crewsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/materials", materialsRouter);
+app.use("/api/activity", activityRouter);
+app.use("/api/insurance-claims", insuranceClaimsRouter);
+app.use("/api/reviews", reviewsRouter);
+app.use("/api/payments", paymentsRouter);
+app.use("/api/settings", settingsRouter);
 
 // ---- 10. 404 + error handlers (MUST be last) ----
 app.use(notFoundHandler);

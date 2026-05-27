@@ -24,7 +24,7 @@ import { Router } from "express";
 import argon2 from "argon2";
 import { eq } from "drizzle-orm";
 import { db, schema } from "../db/index.js";
-import { loginSchema, registerSchema, clientLoginSchema } from "../validators/schemas.js";
+import { loginSchema, registerSchema, clientLoginSchema, inviteEmployeeSchema, inviteClientSchema } from "../validators/schemas.js";
 import {
   signAccess,
   signRefresh,
@@ -40,10 +40,12 @@ import {
   LOCKOUT_DURATION_MS,
 } from "../auth/lockout.js";
 import { setAuthCookies, clearAuthCookies } from "../services/cookies.js";
-import { Unauthorized, Conflict, NotFound, HttpError } from "../utils/errors.js";
-import { requireAuth } from "../auth/middleware.js";
+import { Unauthorized, Conflict, NotFound, HttpError, BadRequest, Forbidden } from "../utils/errors.js";
+import { requireAuth, requireRole } from "../auth/middleware.js";
 import { authLimiter } from "../middleware/rateLimits.js";
 import { logger } from "../utils/logger.js";
+import { sendEmail } from "../services/email.js";
+import crypto from "node:crypto";
 
 const router = Router();
 
@@ -386,7 +388,11 @@ router.get("/me", requireAuth, async (req, res, next) => {
         full_name: schema.users.full_name,
         role: schema.users.role,
         phone: schema.users.phone,
+        title: schema.users.title,
+        company: schema.users.company,
+        assigned_territory: schema.users.assigned_territory,
         active: schema.users.active,
+        client_job_number: schema.users.client_job_number,
       })
       .from(schema.users)
       .where(eq(schema.users.id, req.user!.sub))
@@ -397,5 +403,180 @@ router.get("/me", requireAuth, async (req, res, next) => {
     next(e);
   }
 });
+
+// ============================================================================
+// POST /api/auth/invite-employee — admin/manager only
+// ============================================================================
+router.post(
+  "/invite-employee",
+  requireAuth,
+  requireRole("admin", "manager"),
+  async (req, res, next) => {
+    try {
+      // managers cannot create admins
+      const data = inviteEmployeeSchema.parse(req.body);
+      if (data.role === "admin" && req.user!.role !== "admin") {
+        throw Forbidden("Only admins may invite other admins");
+      }
+
+      const existing = await db
+        .select({ id: schema.users.id })
+        .from(schema.users)
+        .where(eq(schema.users.email, data.email))
+        .limit(1);
+      if (existing.length) throw Conflict("Email already registered");
+
+      // Generate a strong one-time password if none was provided.
+      const tempPassword =
+        data.password ?? crypto.randomBytes(16).toString("base64url").slice(0, 16) + "A1!";
+      const password_hash = await argon2.hash(tempPassword, {
+        type: argon2.argon2id,
+        memoryCost: 19_456,
+        timeCost: 2,
+        parallelism: 1,
+      });
+
+      const [user] = await db
+        .insert(schema.users)
+        .values({
+          email: data.email,
+          password_hash,
+          full_name: data.full_name ?? data.email.split("@")[0],
+          phone: data.phone,
+          title: data.title,
+          company: data.company,
+          assigned_territory: data.assigned_territory,
+          crew_id: data.crew_id ?? null,
+          role: data.role,
+        } as any)
+        .returning();
+
+      // Best-effort invite email. If SMTP is not configured, surface the
+      // temp password to the caller so the office can deliver it manually.
+      let emailDelivered = false;
+      try {
+        const base = process.env.APP_BASE_URL || "https://enixexteriors.com";
+        await sendEmail({
+          to: data.email,
+          subject: "You've been invited to the Enix Exteriors CRM",
+          html: `<p>Hi ${data.full_name ?? ""},</p>
+                 <p>You've been invited to the Enix Exteriors CRM as a <b>${data.role.replace(/_/g, " ")}</b>.</p>
+                 <p>Login URL: <a href="${base}/login/employee">${base}/login/employee</a></p>
+                 <p>Email: ${data.email}<br/>Temporary password: <b>${tempPassword}</b></p>
+                 <p>Please change your password after first login.</p>`,
+        });
+        emailDelivered = true;
+      } catch (mailErr) {
+        logger.warn({ err: mailErr }, "invite email failed; returning temp password to caller");
+      }
+
+      res.status(201).json({
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        email_delivered: emailDelivered,
+        temp_password: emailDelivered ? undefined : tempPassword,
+      });
+    } catch (e) {
+      next(e);
+    }
+  },
+);
+
+// ============================================================================
+// POST /api/auth/invite-client — give a customer access to the portal
+// ============================================================================
+router.post(
+  "/invite-client",
+  requireAuth,
+  requireRole("admin", "manager", "office", "office_staff"),
+  async (req, res, next) => {
+    try {
+      const data = inviteClientSchema.parse(req.body);
+      let job: { id: string; job_number: string | null; customer_name: string | null } | undefined;
+      if (data.job_id) {
+        const [foundJob] = await db
+          .select({
+            id: schema.jobs.id,
+            job_number: schema.jobs.job_number,
+            customer_name: schema.jobs.customer_name,
+          })
+          .from(schema.jobs)
+          .where(eq(schema.jobs.id, data.job_id))
+          .limit(1);
+        if (!foundJob) throw NotFound("Job not found");
+        job = foundJob;
+      }
+
+      const tempPassword = crypto.randomBytes(16).toString("base64url").slice(0, 16) + "A1!";
+      const password_hash = await argon2.hash(tempPassword, {
+        type: argon2.argon2id,
+        memoryCost: 19_456,
+        timeCost: 2,
+        parallelism: 1,
+      });
+
+      const [existing] = await db
+        .select()
+        .from(schema.users)
+        .where(eq(schema.users.email, data.email))
+        .limit(1);
+
+      let user;
+      if (existing) {
+        [user] = await db
+          .update(schema.users)
+          .set({
+            client_job_number: job?.job_number,
+            role: existing.role === "admin" || existing.role === "manager" ? existing.role : "client",
+            full_name: existing.full_name || data.full_name || data.email.split("@")[0],
+            active: true,
+            updated_at: new Date(),
+          })
+          .where(eq(schema.users.id, existing.id))
+          .returning();
+      } else {
+        [user] = await db
+          .insert(schema.users)
+          .values({
+            email: data.email,
+            password_hash,
+            full_name: data.full_name ?? job?.customer_name ?? data.email.split("@")[0],
+            role: "client",
+            client_job_number: job?.job_number ?? null,
+          })
+          .returning();
+      }
+
+      // Best-effort email
+      let emailDelivered = false;
+      try {
+        const base = process.env.APP_BASE_URL || "https://enixexteriors.com";
+        await sendEmail({
+          to: data.email,
+          subject: `Your Enix Exteriors client portal for job ${job?.job_number}`,
+          html: `<p>Hi ${user.full_name},</p>
+                 <p>You now have access to the Enix Exteriors client portal for job <b>${job?.job_number}</b>.</p>
+                 <p>Login URL: <a href="${base}/portal/login">${base}/portal/login</a></p>
+                 <p>Email: ${data.email}<br/>${existing ? "" : `Temporary password: <b>${tempPassword}</b>`}</p>
+                 ${existing ? "" : "<p>Please change your password after first login.</p>"}`,
+        });
+        emailDelivered = true;
+      } catch (mailErr) {
+        logger.warn({ err: mailErr }, "client invite email failed");
+      }
+
+      res.status(201).json({
+        id: user.id,
+        email: user.email,
+        client_job_number: user.client_job_number,
+        email_delivered: emailDelivered,
+        temp_password: existing || emailDelivered ? undefined : tempPassword,
+      });
+    } catch (e) {
+      next(e);
+    }
+  },
+);
 
 export default router;

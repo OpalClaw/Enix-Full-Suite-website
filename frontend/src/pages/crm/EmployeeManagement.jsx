@@ -23,10 +23,14 @@ import { toast } from 'sonner';
 
 const EMPLOYEE_ROLES = [
   { value: 'admin', label: 'Admin' },
+  { value: 'manager', label: 'Manager' },
   { value: 'sales_rep', label: 'Sales Rep' },
+  { value: 'estimator', label: 'Estimator' },
+  { value: 'project_lead', label: 'Project Lead' },
   { value: 'project_manager', label: 'Project Manager' },
   { value: 'production_manager', label: 'Production Manager' },
   { value: 'office_staff', label: 'Office Staff' },
+  { value: 'crew_lead', label: 'Crew Lead' },
   { value: 'crew', label: 'Crew' },
   { value: 'subcontractor', label: 'Subcontractor' },
 ];
@@ -35,11 +39,10 @@ export default function EmployeeManagement() {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
+    full_name: '',
     role: 'sales_rep',
     title: '',
     phone: '',
-    company: '',
-    crew_id: '',
     assigned_territory: '',
   });
   const queryClient = useQueryClient();
@@ -51,20 +54,18 @@ export default function EmployeeManagement() {
 
   const inviteMutation = useMutation({
     mutationFn: async (data) => {
-      // Use the SDK's inviteUser method
-      await base44.users.inviteUser(data.email, data.role);
-      return data;
+      const res = await base44.functions.invoke('inviteEmployee', data);
+      return res?.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['employees'] });
-      toast.success('Employee invited successfully');
+      toast.success('Employee invited — invitation email sent');
       setFormData({
         email: '',
+        full_name: '',
         role: 'sales_rep',
         title: '',
         phone: '',
-        company: '',
-        crew_id: '',
         assigned_territory: '',
       });
       setOpen(false);
@@ -78,17 +79,17 @@ export default function EmployeeManagement() {
     mutationFn: (userId) => base44.entities.User.delete(userId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['employees'] });
-      toast.success('Employee removed');
+      toast.success('Employee deactivated');
     },
     onError: (error) => {
-      toast.error('Failed to remove employee');
+      toast.error(error?.message || 'Failed to remove employee');
     },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.email) {
-      toast.error('Email is required');
+    if (!formData.email || !formData.full_name) {
+      toast.error('Email and full name are required');
       return;
     }
     inviteMutation.mutate(formData);
@@ -126,6 +127,17 @@ export default function EmployeeManagement() {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="employee@example.com"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium">Full name *</label>
+                <Input
+                  name="full_name"
+                  value={formData.full_name}
+                  onChange={handleInputChange}
+                  placeholder="Jane Doe"
                   required
                 />
               </div>

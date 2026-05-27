@@ -191,6 +191,33 @@ const functions = {
         return { data: await request("POST", `/estimates/${encodeURIComponent(payload.estimateId)}/approve`, payload) };
       case "inviteEmployeeWithDetails":
         return { data: await request("POST", "/auth/register", payload) };
+      case "inviteEmployee":
+        return { data: await request("POST", "/auth/invite-employee", payload) };
+      case "inviteClient":
+        return { data: await request("POST", "/auth/invite-client", payload) };
+      case "sendSMS":
+      case "sendSms":
+        return { data: await request("POST", "/messages/sms", payload) };
+      case "initiateCall":
+        return { data: await request("POST", "/messages/call", payload) };
+      case "sendContractForSignature":
+        return { data: await request("POST", `/contracts/${encodeURIComponent(payload.contractId)}/send`, payload) };
+      case "generateContractPDF":
+        return { data: await request("POST", `/contracts/${encodeURIComponent(payload.contractId)}/pdf`) };
+      case "syncAbcMaterials":
+        return { data: await request("POST", "/materials/sync-abc") };
+      case "orderAbcMaterial":
+        return { data: await request("POST", "/materials/order", payload) };
+      case "fetchEagleViewReport":
+        return { data: await request("POST", "/inspections/eagleview", payload) };
+      case "syncQuickbooksInvoice":
+        return { data: await request("POST", `/invoices/${encodeURIComponent(payload.invoiceId)}/sync-qbo`) };
+      case "getSettings":
+        return { data: await request("GET", "/settings") };
+      case "updateSetting":
+        return { data: await request("PUT", `/settings/${encodeURIComponent(payload.key)}`, { value: payload.value }) };
+      case "testIntegration":
+        return { data: await request("POST", `/settings/test/${encodeURIComponent(payload.integration)}`) };
       default:
         throw new ApiError(501, "not_implemented", `Function ${name} not migrated`);
     }

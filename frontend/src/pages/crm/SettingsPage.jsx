@@ -2,8 +2,17 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
-import { LogOut } from 'lucide-react';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/tabs';
+import { LogOut, Users, Settings as SettingsIcon, Plug, Building2 } from 'lucide-react';
 import DashboardSettings from '@/components/crm/DashboardSettings';
+import EmployeeManagement from './EmployeeManagement';
+import IntegrationsPanel from '@/components/crm/IntegrationsPanel';
+import CompanyProfilePanel from '@/components/crm/CompanyProfilePanel';
 
 export default function SettingsPage() {
   const navigate = useNavigate();
@@ -11,7 +20,11 @@ export default function SettingsPage() {
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
-    await base44.auth.logout('/login/employee');
+    try {
+      await base44.auth.logout();
+    } finally {
+      navigate('/login/employee');
+    }
   };
 
   return (
@@ -19,7 +32,9 @@ export default function SettingsPage() {
       <div className="border-b border-gray-200 pb-4 flex justify-between items-start">
         <div>
           <h1 className="font-heading font-bold text-3xl mb-1">Settings</h1>
-          <p className="text-muted-foreground">Manage your team and app settings</p>
+          <p className="text-muted-foreground">
+            Team, integrations, company profile, and dashboard preferences.
+          </p>
         </div>
         <Button
           variant="outline"
@@ -31,7 +46,36 @@ export default function SettingsPage() {
           {isLoggingOut ? 'Logging out...' : 'Logout'}
         </Button>
       </div>
-      <DashboardSettings />
+
+      <Tabs defaultValue="team" className="w-full">
+        <TabsList className="grid grid-cols-4 w-full max-w-3xl">
+          <TabsTrigger value="team" className="gap-2">
+            <Users className="w-4 h-4" /> Team
+          </TabsTrigger>
+          <TabsTrigger value="integrations" className="gap-2">
+            <Plug className="w-4 h-4" /> Integrations
+          </TabsTrigger>
+          <TabsTrigger value="company" className="gap-2">
+            <Building2 className="w-4 h-4" /> Company
+          </TabsTrigger>
+          <TabsTrigger value="dashboard" className="gap-2">
+            <SettingsIcon className="w-4 h-4" /> Dashboard
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="team" className="mt-6">
+          <EmployeeManagement />
+        </TabsContent>
+        <TabsContent value="integrations" className="mt-6">
+          <IntegrationsPanel />
+        </TabsContent>
+        <TabsContent value="company" className="mt-6">
+          <CompanyProfilePanel />
+        </TabsContent>
+        <TabsContent value="dashboard" className="mt-6">
+          <DashboardSettings />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

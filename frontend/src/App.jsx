@@ -47,6 +47,7 @@ import Measurements from './pages/crm/Measurements';
 import Estimates from './pages/crm/EstimatesPage';
 import EstimateTemplates from './pages/crm/EstimateTemplates';
 import Contracts from './pages/crm/Contracts';
+import ContractTemplateBuilder from './pages/crm/ContractTemplateBuilder';
 import Crew from './pages/crm/Crew';
 import Materials from './pages/crm/Materials';
 import Tasks from './pages/crm/Tasks';
@@ -142,6 +143,8 @@ const AuthenticatedApp = () => {
           <Route path="/crm/estimates" element={<Estimates />} />
           <Route path="/crm/estimate-templates" element={<EstimateTemplates />} />
           <Route path="/crm/contracts" element={<Contracts />} />
+          <Route path="/crm/contracts/templates" element={<ContractTemplateBuilder />} />
+          <Route path="/crm/contracts/templates/:templateId" element={<ContractTemplateBuilder />} />
           <Route path="/crm/calendar" element={<CRMCalendar />} />
           <Route path="/crm/crew" element={<Crew />} />
           <Route path="/crm/materials" element={<Materials />} />

@@ -11,7 +11,21 @@ import {
 /* ============================================================
  * Enums
  * ========================================================= */
-export const userRoleEnum = pgEnum("user_role", ["admin", "manager", "estimator", "office", "crew", "client"]);
+export const userRoleEnum = pgEnum("user_role", [
+  "admin",
+  "manager",
+  "estimator",
+  "office",
+  "office_staff",
+  "crew",
+  "crew_lead",
+  "client",
+  "sales_rep",
+  "project_lead",
+  "project_manager",
+  "production_manager",
+  "subcontractor",
+]);
 export const leadStatusEnum = pgEnum("lead_status", ["new", "contacted", "qualified", "estimating", "won", "lost"]);
 export const jobStatusEnum = pgEnum("job_status", [
   "approved", "material_ordered", "scheduled", "in_production", "in_progress",
@@ -49,6 +63,10 @@ export const users = pgTable("users", {
   full_name: varchar("full_name", { length: 200 }).notNull(),
   role: userRoleEnum("role").notNull().default("client"),
   phone: varchar("phone", { length: 20 }),
+  title: varchar("title", { length: 100 }),
+  company: varchar("company", { length: 200 }),
+  assigned_territory: varchar("assigned_territory", { length: 200 }),
+  crew_id: uuid("crew_id"),
   active: boolean("active").notNull().default(true),
   last_login_at: timestamp("last_login_at", { withTimezone: true }),
   client_job_number: varchar("client_job_number", { length: 50 }),
@@ -306,15 +324,40 @@ export const document_workflow = pgTable("document_workflow", {
 
 export const contracts = pgTable("contracts", {
   id: uuid("id").primaryKey().defaultRandom(),
+  contract_number: varchar("contract_number", { length: 50 }).unique(),
   job_id: uuid("job_id").references(() => jobs.id, { onDelete: "cascade" }),
+  estimate_id: uuid("estimate_id").references(() => estimates.id, { onDelete: "set null" }),
+  customer_id: uuid("customer_id").references(() => customers.id, { onDelete: "set null" }),
+  customer_name: varchar("customer_name", { length: 200 }),
+  customer_email: varchar("customer_email", { length: 255 }),
+  customer_phone: varchar("customer_phone", { length: 20 }),
+  property_address: text("property_address"),
   document_id: uuid("document_id").references(() => smart_documents.id, { onDelete: "set null" }),
+  template_id: uuid("template_id"),
+  title: varchar("title", { length: 200 }),
+  contract_price: numeric("contract_price", { precision: 14, scale: 2 }),
   contract_value: numeric("contract_value", { precision: 14, scale: 2 }),
+  status: varchar("status", { length: 50 }).notNull().default("draft"),
+  signed: boolean("signed").notNull().default(false),
   signed_at: timestamp("signed_at", { withTimezone: true }),
+  signed_by_client_at: timestamp("signed_by_client_at", { withTimezone: true }),
+  signed_by_business_at: timestamp("signed_by_business_at", { withTimezone: true }),
   start_date: timestamp("start_date", { withTimezone: true }),
   end_date: timestamp("end_date", { withTimezone: true }),
   terms: text("terms"),
+  body_content: jsonb("body_content").$type<Record<string, unknown>>().default({}),
+  line_items: jsonb("line_items").$type<unknown[]>().default(sql`'[]'::jsonb`),
+  docusign_envelope_id: varchar("docusign_envelope_id", { length: 100 }),
+  docusign_status: varchar("docusign_status", { length: 50 }),
+  docusign_last_event_at: timestamp("docusign_last_event_at", { withTimezone: true }),
+  created_by: uuid("created_by").references(() => users.id, { onDelete: "set null" }),
   created_at: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-});
+  updated_at: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  jobIdx: index("contracts_job_idx").on(t.job_id),
+  statusIdx: index("contracts_status_idx").on(t.status),
+  envelopeIdx: index("contracts_docusign_envelope_idx").on(t.docusign_envelope_id),
+}));
 
 export const proposals = pgTable("proposals", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -343,39 +386,74 @@ export const change_orders = pgTable("change_orders", {
 export const tasks = pgTable("tasks", {
   id: uuid("id").primaryKey().defaultRandom(),
   job_id: uuid("job_id").references(() => jobs.id, { onDelete: "cascade" }),
+  lead_id: uuid("lead_id").references(() => leads.id, { onDelete: "set null" }),
   assignee_id: uuid("assignee_id").references(() => users.id, { onDelete: "set null" }),
+  assigned_to: uuid("assigned_to").references(() => users.id, { onDelete: "set null" }),
   title: varchar("title", { length: 200 }).notNull(),
   description: text("description"),
-  status: varchar("status", { length: 50 }).notNull().default("open"),
-  priority: varchar("priority", { length: 20 }).default("normal"),
+  status: varchar("status", { length: 50 }).notNull().default("not_started"),
+  priority: varchar("priority", { length: 20 }).default("medium"),
+  task_type: varchar("task_type", { length: 50 }),
   due_date: timestamp("due_date", { withTimezone: true }),
   completed_at: timestamp("completed_at", { withTimezone: true }),
+  completed_date: timestamp("completed_date", { withTimezone: true }),
+  notes: text("notes"),
   created_at: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-});
+  updated_at: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  jobIdx: index("tasks_job_idx").on(t.job_id),
+  statusIdx: index("tasks_status_idx").on(t.status),
+  assignedIdx: index("tasks_assigned_idx").on(t.assignee_id),
+}));
 
 export const appointments = pgTable("appointments", {
   id: uuid("id").primaryKey().defaultRandom(),
   job_id: uuid("job_id").references(() => jobs.id, { onDelete: "set null" }),
   lead_id: uuid("lead_id").references(() => leads.id, { onDelete: "set null" }),
+  title: varchar("title", { length: 200 }),
   appointment_type: varchar("appointment_type", { length: 50 }).notNull(),
   scheduled_at: timestamp("scheduled_at", { withTimezone: true }).notNull(),
   duration_minutes: integer("duration_minutes").default(60),
   assignee_id: uuid("assignee_id").references(() => users.id, { onDelete: "set null" }),
+  assigned_to: uuid("assigned_to").references(() => users.id, { onDelete: "set null" }),
+  assigned_crew: uuid("assigned_crew"),
+  customer_name: varchar("customer_name", { length: 200 }),
+  customer_phone: varchar("customer_phone", { length: 20 }),
+  address: text("address"),
   notes: text("notes"),
   status: varchar("status", { length: 50 }).notNull().default("scheduled"),
+  reminder_sent: boolean("reminder_sent").notNull().default(false),
   created_at: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-});
+  updated_at: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  scheduledIdx: index("appointments_scheduled_idx").on(t.scheduled_at),
+  jobIdx: index("appointments_job_idx").on(t.job_id),
+}));
 
 export const messages = pgTable("messages", {
   id: uuid("id").primaryKey().defaultRandom(),
   job_id: uuid("job_id").references(() => jobs.id, { onDelete: "set null" }),
+  lead_id: uuid("lead_id").references(() => leads.id, { onDelete: "set null" }),
   recipient_email: varchar("recipient_email", { length: 255 }),
+  recipient_phone: varchar("recipient_phone", { length: 20 }),
+  recipient_user_id: uuid("recipient_user_id").references(() => users.id, { onDelete: "set null" }),
   sender_id: uuid("sender_id").references(() => users.id, { onDelete: "set null" }),
+  sender_name: varchar("sender_name", { length: 200 }),
+  channel: varchar("channel", { length: 20 }).notNull().default("in_app"),
+  direction: varchar("direction", { length: 20 }).notNull().default("outbound"),
   subject: varchar("subject", { length: 200 }),
   body: text("body").notNull(),
+  content: text("content"),
+  is_internal: boolean("is_internal").notNull().default(false),
   read_at: timestamp("read_at", { withTimezone: true }),
+  twilio_sid: varchar("twilio_sid", { length: 64 }),
+  twilio_status: varchar("twilio_status", { length: 50 }),
+  metadata: jsonb("metadata").$type<Record<string, unknown>>().default({}),
   created_at: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-});
+}, (t) => ({
+  jobIdx: index("messages_job_idx").on(t.job_id),
+  createdIdx: index("messages_created_idx").on(t.created_at),
+}));
 
 export const activity_log = pgTable("activity_log", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -392,13 +470,39 @@ export const activity_log = pgTable("activity_log", {
 export const inspections = pgTable("inspections", {
   id: uuid("id").primaryKey().defaultRandom(),
   job_id: uuid("job_id").references(() => jobs.id, { onDelete: "cascade" }),
+  lead_id: uuid("lead_id").references(() => leads.id, { onDelete: "set null" }),
   inspector_id: uuid("inspector_id").references(() => users.id, { onDelete: "set null" }),
-  inspection_type: varchar("inspection_type", { length: 50 }).notNull(),
+  inspector_name: varchar("inspector_name", { length: 200 }),
+  inspection_type: varchar("inspection_type", { length: 50 }).notNull().default("roofing"),
+  service_type: varchar("service_type", { length: 50 }),
+  property_type: propertyTypeEnum("property_type").notNull().default("residential"),
+  customer_name: varchar("customer_name", { length: 200 }),
+  property_address: text("property_address"),
+  inspection_date: timestamp("inspection_date", { withTimezone: true }),
   scheduled_at: timestamp("scheduled_at", { withTimezone: true }),
+  roof_type: varchar("roof_type", { length: 100 }),
+  shingle_type: varchar("shingle_type", { length: 100 }),
+  roof_age: varchar("roof_age", { length: 50 }),
+  squares: numeric("squares", { precision: 10, scale: 2 }),
+  pitch: varchar("pitch", { length: 20 }),
+  layers: integer("layers"),
+  damage_notes: text("damage_notes"),
+  leak_notes: text("leak_notes"),
+  ventilation_notes: text("ventilation_notes"),
+  flashing_notes: text("flashing_notes"),
+  storm_damage_checklist: jsonb("storm_damage_checklist").$type<string[]>().default(sql`'[]'::jsonb`),
+  checklist: jsonb("checklist").$type<Record<string, unknown>>().default({}),
+  insurance_claim_notes: text("insurance_claim_notes"),
+  recommended_scope: text("recommended_scope"),
+  photo_urls: jsonb("photo_urls").$type<string[]>().default(sql`'[]'::jsonb`),
   findings: jsonb("findings").$type<Record<string, unknown>>().default({}),
   status: varchar("status", { length: 50 }).default("scheduled"),
   created_at: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-});
+  updated_at: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  jobIdx: index("inspections_job_idx").on(t.job_id),
+  statusIdx: index("inspections_status_idx").on(t.status),
+}));
 
 export const insurance_claims = pgTable("insurance_claims", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -427,12 +531,24 @@ export const crews = pgTable("crews", {
 export const warranties = pgTable("warranties", {
   id: uuid("id").primaryKey().defaultRandom(),
   job_id: uuid("job_id").notNull().references(() => jobs.id, { onDelete: "cascade" }),
+  customer_name: varchar("customer_name", { length: 200 }),
+  customer_email: varchar("customer_email", { length: 255 }),
+  property_address: text("property_address"),
   warranty_type: varchar("warranty_type", { length: 100 }).notNull(),
+  manufacturer: varchar("manufacturer", { length: 200 }),
   coverage_years: integer("coverage_years").notNull(),
+  // Generated column (mirrors coverage_years). Read-only via Drizzle.
+  duration_years: integer("duration_years"),
   start_date: timestamp("start_date", { withTimezone: true }).notNull(),
   end_date: timestamp("end_date", { withTimezone: true }).notNull(),
   coverage_details: text("coverage_details"),
+  document_url: text("document_url"),
+  active: boolean("active").notNull().default(true),
+  claims: jsonb("claims").$type<unknown[]>().default(sql`'[]'::jsonb`),
+  notes: text("notes"),
   status: varchar("status", { length: 50 }).default("active"),
+  created_at: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
 export const reviews = pgTable("reviews", {
@@ -447,6 +563,7 @@ export const reviews = pgTable("reviews", {
   approved: boolean("approved").notNull().default(false),
   featured: boolean("featured").notNull().default(false),
   created_at: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
 /* ============================================================
@@ -615,6 +732,19 @@ export const roof_estimate_settings = pgTable("roof_estimate_settings", {
   value: jsonb("value").$type<unknown>().notNull(),
 });
 
+export const app_settings = pgTable("app_settings", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  key: varchar("key", { length: 100 }).notNull().unique(),
+  value: jsonb("value").$type<Record<string, unknown>>().notNull().default({}),
+  is_secret: boolean("is_secret").notNull().default(false),
+  description: text("description"),
+  updated_by: uuid("updated_by").references(() => users.id, { onDelete: "set null" }),
+  updated_at: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  created_at: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  keyIdx: uniqueIndex("app_settings_key_idx").on(t.key),
+}));
+
 /* ============================================================
  * Type exports
  * ========================================================= */
@@ -628,3 +758,13 @@ export type Customer = typeof customers.$inferSelect;
 export type Estimate = typeof estimates.$inferSelect;
 export type Invoice = typeof invoices.$inferSelect;
 export type SmartDocument = typeof smart_documents.$inferSelect;
+export type Task = typeof tasks.$inferSelect;
+export type NewTask = typeof tasks.$inferInsert;
+export type Appointment = typeof appointments.$inferSelect;
+export type NewAppointment = typeof appointments.$inferInsert;
+export type Message = typeof messages.$inferSelect;
+export type NewMessage = typeof messages.$inferInsert;
+export type Warranty = typeof warranties.$inferSelect;
+export type Inspection = typeof inspections.$inferSelect;
+export type Contract = typeof contracts.$inferSelect;
+export type AppSetting = typeof app_settings.$inferSelect;
